@@ -29,5 +29,13 @@ Provee las guías prácticas para instalar, operar, comprender el código y solu
 - 📄 [Guía de Instalación y Configuración](./04_Operations_and_Maintenance/installation_and_setup.md)
 - 📄 [Guía de Mantenimiento](./04_Operations_and_Maintenance/maintenance_guide.md)
 
+### [05. Gestión de la Configuración y Cambios (Configuration Management)](./05_Configuration_Management/)
+Establece las normativas, estrategias y líneas base para asegurar la trazabilidad y el control sobre la evolución del sistema, alineado a estándares de auditoría.
+- 📄 [Estrategia de Versionamiento y Ramas](./05_Configuration_Management/01_estrategia_versionamiento.md)
+- 📄 [Protocolo de Control de Cambios](./05_Configuration_Management/02_protocolo_control_cambios.md)
+- 📄 [Evidencias de Integración Jira-Repo](./05_Configuration_Management/03_integracion_jira.md)
+- 📄 [Informe de Línea Base del Sistema (LB-01)](./05_Configuration_Management/04_informe_linea_base.md)
+- 📄 [Registro Inicial de Cambios](./05_Configuration_Management/05_initial_change_log.md)
+
 ---
 *Documentación generada mediante análisis estático de código e ingeniería inversa.*
