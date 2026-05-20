@@ -1,0 +1,66 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: inventory-db
+    environment:
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRES_DB: ${POSTGRESQL_DB}
+    ports:
+      - "${POSTGRESQL_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USER:-postgres} -d ${POSTGRESQL_DB:-gestion_inventario}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: inventory-backend
+    environment:
+      POSTGRESQL_HOST: db
+      POSTGRESQL_USER: ${POSTGRESQL_USER}
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRESQL_DB: ${POSTGRESQL_DB}
+      POSTGRESQL_PORT: ${POSTGRESQL_PORT:-5432}
+      PORT: ${PORT:-3001}
+    ports:
+      - "${PORT:-3001}:${PORT:-3001}"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: pnpm run dev
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: inventory-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      WATCHPACK_POLLING: ${WATCHPACK_POLLING:-true}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    command: pnpm run dev
+    depends_on:
+      backend:
+        condition: service_started
+
+volumes:
+  postgres_data:
+
