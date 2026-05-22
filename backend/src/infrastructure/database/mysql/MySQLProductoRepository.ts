@@ -146,4 +146,18 @@ where Stock_Actual > Nivel_Maximo;
             throw new Error('Error al obtener el inventario de productos: ' + (error as Error).message);
         }
     }
+
+    async actualizarStock(productoId: number, cantidad: number): Promise<void> {
+        try {
+            const [result] = await db.execute(
+                'UPDATE producto SET stock_actual = stock_actual + ? WHERE id = ?',
+                [cantidad, productoId]
+            );
+            if ((result as { affectedRows: number }).affectedRows === 0) {
+                throw new Error(`Producto con id ${productoId} no encontrado.`);
+            }
+        } catch (error) {
+            throw new Error('Error al actualizar el stock del producto: ' + (error as Error).message);
+        }
+    }
 }

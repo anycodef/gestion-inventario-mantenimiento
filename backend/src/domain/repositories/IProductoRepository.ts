@@ -11,4 +11,5 @@ export interface IProductoRepository {
     obtenerPorCategoria(categoriaId: number): Promise<Producto[]>;
     obtenerProductosDebajoDelNivelMinimo(): Promise<Producto[]>;
     obtenerProductosArribaDelNivelMaximo(): Promise<Producto[]>;
+    actualizarStock(productoId: number, cantidad: number): Promise<void>;
 }
