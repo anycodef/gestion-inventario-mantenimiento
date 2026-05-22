@@ -102,14 +102,51 @@ export class PostgreSQLOrdenCompraRepository implements IOrdenCompraRepository {
     }
 
     async actualizar(data: { id: number; proveedorId: number; fechaCompra: Date; estado: string; totalCompra: number }): Promise<void> {
+        const { id, proveedorId, fechaCompra, estado, totalCompra } = data;
+        const client = await db.connect();
         try {
-            const { id, proveedorId, fechaCompra, estado, totalCompra } = data;
-            await db.query(
+            await client.query('BEGIN');
+
+            // Bloquea la fila de la orden para evitar lecturas sucias concurrentes
+            const { rows: current } = await client.query(
+                'SELECT estado FROM orden_compra WHERE id = $1 FOR UPDATE',
+                [id]
+            );
+            const estadoActual: string = current[0]?.estado;
+            const transicionandoACompletado = estado === 'completado' && estadoActual !== 'completado';
+
+            await client.query(
                 'UPDATE orden_compra SET ProveedorID = $1, Fecha_Compra = $2, Estado = $3, Total_Compra = $4 WHERE ID = $5',
                 [proveedorId, fechaCompra, estado, totalCompra, id]
             );
+
+            if (transicionandoACompletado) {
+                const { rows: detalles } = await client.query(
+                    'SELECT productoid, cantidad FROM detalle_compra WHERE orden_compraid = $1',
+                    [id]
+                );
+
+                // Ordenar por id para adquirir locks siempre en el mismo orden y evitar deadlocks
+                const detallesOrdenados = [...detalles].sort((a, b) => a.productoid - b.productoid);
+
+                for (const detalle of detallesOrdenados) {
+                    await client.query(
+                        'SELECT id FROM producto WHERE id = $1 FOR UPDATE',
+                        [detalle.productoid]
+                    );
+                    await client.query(
+                        'UPDATE producto SET stock_actual = stock_actual + $1 WHERE id = $2',
+                        [detalle.cantidad, detalle.productoid]
+                    );
+                }
+            }
+
+            await client.query('COMMIT');
         } catch (error) {
+            await client.query('ROLLBACK');
             throw new Error('Error al actualizar la orden de compra: ' + (error as Error).message);
+        } finally {
+            client.release();
         }
     }
 

@@ -102,14 +102,51 @@ export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
         }
     }
     async actualizar(data: { id: number; proveedorId: number; fechaCompra: Date; estado: string; totalCompra: number }): Promise<void> {
+        const { id, proveedorId, fechaCompra, estado, totalCompra } = data;
+        const connection = await db.getConnection();
         try {
-            const { id, proveedorId, fechaCompra, estado, totalCompra } = data;
-            await db.execute(
+            await connection.query('START TRANSACTION');
+
+            // Bloquea la fila de la orden para evitar lecturas sucias concurrentes
+            const [current] = await connection.query(
+                'SELECT estado FROM orden_compra WHERE id = ? FOR UPDATE',
+                [id]
+            );
+            const estadoActual: string = (current as {estado: string}[])[0]?.estado;
+            const transicionandoACompletado = estado === 'completado' && estadoActual !== 'completado';
+
+            await connection.query(
                 'UPDATE orden_compra SET proveedorID = ?, Fecha_Compra = ?, estado = ?, Total_Compra = ? WHERE id = ?',
                 [proveedorId, fechaCompra, estado, totalCompra, id]
             );
+
+            if (transicionandoACompletado) {
+                const [detalles] = await connection.query(
+                    'SELECT productoid, cantidad FROM detalle_compra WHERE orden_compraid = ?',
+                    [id]
+                );
+
+                // Ordenar por id para adquirir locks siempre en el mismo orden y evitar deadlocks
+                const detallesOrdenados = [...(detalles as {productoid: number, cantidad: number}[])].sort((a, b) => a.productoid - b.productoid);
+
+                for (const detalle of detallesOrdenados) {
+                    await connection.query(
+                        'SELECT id FROM producto WHERE id = ? FOR UPDATE',
+                        [detalle.productoid]
+                    );
+                    await connection.query(
+                        'UPDATE producto SET stock_actual = stock_actual + ? WHERE id = ?',
+                        [detalle.cantidad, detalle.productoid]
+                    );
+                }
+            }
+
+            await connection.query('COMMIT');
         } catch (error) {
+            await connection.query('ROLLBACK');
             throw new Error('Error al actualizar la orden de compra: ' + (error as Error).message);
+        } finally {
+            connection.release();
         }
     }
     async eliminar(id: number): Promise<void> {
