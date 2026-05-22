@@ -23,41 +23,33 @@ La integración cumple los siguientes objetivos del proceso de gestión de confi
 
 ## 2. Arquitectura de la Integración
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        JIRA CLOUD                               │
-│  Instancia: unmsm-team-ielngzdw.atlassian.net                   │
-│  Proyecto: Gestión de Inventario MT  (KAN)                      │
-│                                                                  │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐    │
-│  │  KAN-4   │   │  KAN-5   │   │  KAN-10  │   │  KAN-N   │    │
-│  │  (Bug)   │   │(Feature) │   │  (Task)  │   │   ...    │    │
-│  └────┬─────┘   └────┬─────┘   └────┬─────┘   └────┬─────┘    │
-└───────┼──────────────┼──────────────┼──────────────┼───────────┘
-        │              │              │              │
-        │    GitHub for Jira App (OAuth 2.0, FULL ACCESS)
-        │    Activada: 23/11/2025
-        │              │              │              │
-┌───────┼──────────────┼──────────────┼──────────────┼───────────┐
-│       ▼              ▼              ▼              ▼            │
-│                       GITHUB                                    │
-│          anycodef/gestion-inventario-mantenimiento              │
-│                                                                  │
-│  Branches        Commits                  Pull Requests         │
-│  ─────────────   ──────────────────────   ──────────────────   │
-│  fix/KAN-4-...   fix(...): KAN-4 ...      "feat: KAN-N ..."    │
-│  feat/KAN-5-...  feat(...): KAN-5 ...     Review → Merge        │
-│  chore/KAN-10-.. chore(...): KAN-10 ...                         │
-└─────────────────────────────────────────────────────────────────┘
-        │
-        │  Detección automática de clave KAN-XX
-        ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                  PANEL DE DESARROLLO EN JIRA                    │
-│                                                                  │
-│  KAN-4  ►  Branches: 1  │  Commits: 3  │  PRs: 1               │
-│  KAN-10 ►  Branches: 1  │  Commits: 1  │  PRs: 0               │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph JIRA["Jira Cloud — unmsm-team-ielngzdw.atlassian.net"]
+        direction TB
+        PROJ["Proyecto: Gestión de Inventario MT · Clave KAN"]
+        K4["KAN-4 · Bug · Correctivo"]
+        K5["KAN-5 · Feature · Perfectivo"]
+        K10["KAN-10 · Task · Finalizado"]
+        KN["KAN-N · ..."]
+        DP["Panel de Desarrollo\nBranches · Commits · Pull Requests"]
+        PROJ --> K4 & K5 & K10 & KN
+        K4 & K5 & K10 & KN -.->|actualización automática| DP
+    end
+
+    APP["GitHub for Jira App\nOAuth 2.0 · Full Access · Activa desde 23/11/2025"]
+
+    subgraph GH["GitHub — anycodef/gestion-inventario-mantenimiento"]
+        direction TB
+        BR["Ramas\nfix/KAN-4-race-condition-stock\nchore/KAN-10-eslint-base-rules"]
+        CM["Commits\nfix(inventario): KAN-4 apply pessimistic locking\nchore(dev): KAN-10 configure ESLint"]
+        PR["Pull Requests\nfix(inventario): KAN-4 descripción (#N)"]
+        BR --> CM --> PR
+    end
+
+    K4 & K5 & K10 & KN -->|"clave KAN-XX en rama, commit y PR"| BR
+    PR -->|"evento push / pull_request"| APP
+    APP -->|"vincula artefactos al issue"| DP
 ```
 
 ---
