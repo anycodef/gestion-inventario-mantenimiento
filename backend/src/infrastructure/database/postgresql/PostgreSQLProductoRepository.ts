@@ -119,4 +119,18 @@ export class PostgreSQLProductoRepository implements IProductoRepository {
             throw new Error('Error al obtener los productos arriba del nivel máximo: ' + error.message);
         }
     }
+
+    async actualizarStock(productoId: number, cantidad: number): Promise<void> {
+        try {
+            const { rowCount } = await db.query(
+                'UPDATE producto SET stock_actual = stock_actual + $1 WHERE id = $2',
+                [cantidad, productoId]
+            );
+            if (rowCount === 0) {
+                throw new Error(`Producto con id ${productoId} no encontrado.`);
+            }
+        } catch (error: any) {
+            throw new Error('Error al actualizar el stock del producto: ' + error.message);
+        }
+    }
 }
