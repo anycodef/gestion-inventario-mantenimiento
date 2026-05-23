@@ -6,9 +6,9 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useEffect } from "react";
-import { OrdenCompraFormulario, DetallePedido } from "@/schema/ordenCompra.schema";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useCallback, useEffect } from "react";
+import { OrdenCompraFormulario } from "@/schema/ordenCompra.schema";
 import { useRouter } from "next/navigation";
 interface FormularioOrdenCompraProps {
     proveedores: { id: number; nombre: string }[];
@@ -35,14 +35,14 @@ export default function FormularioOrdenCompra({ proveedores, productos }: Formul
 
     const detalles = watch("detalles");
 
-    useEffect(() => {
-        calcularTotal();
-    }, [detalles]);
-
-    const calcularTotal = () => {
+    const calcularTotal = useCallback(() => {
         const total = detalles.reduce((sum, detalle) => sum + (Number(detalle.subtotal) || 0), 0);
         setValue("totalCompra", String(total));
-    };
+    }, [detalles, setValue]);
+
+    useEffect(() => {
+        calcularTotal();
+    }, [detalles, calcularTotal]);
 
     const handleDetalleChange = (index: number) => {
         const detallesActuales = getValues("detalles");
