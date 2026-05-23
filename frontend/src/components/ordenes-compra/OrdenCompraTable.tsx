@@ -35,17 +35,17 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders, onEdit, onDelete }) => 
             </TableHeader>
                 <TableBody>
                     {orders.map((order) => (
-                        <TableRow key={order.ID}>
-                            <TableCell>{order.ID}</TableCell>
-                            <TableCell>{order.NombreProveedor}</TableCell>
-                            <TableCell>{formatearFecha(order.Fecha_Compra)}</TableCell>
-                            <TableCell>{order.Estado}</TableCell>
-                            <TableCell>{order.Total_Compra}</TableCell>
+                        <TableRow key={order.id}>
+                            <TableCell>{order.id}</TableCell>
+                            <TableCell>{order.nombreproveedor}</TableCell>
+                            <TableCell>{formatearFecha(order.fecha_compra)}</TableCell>
+                            <TableCell>{order.estado}</TableCell>
+                            <TableCell>{order.total_compra}</TableCell>
                             <TableCell className='flex gap-2'>
-                                <button onClick={() => onEdit(order.ID)} className='bg-primary p-2 grid content-center cursor-pointer text-white rounded-lg'>
+                                <button onClick={() => onEdit(order.id)} className='bg-primary p-2 grid content-center cursor-pointer text-white rounded-lg'>
                                     <FiEye size={16} />
                                 </button>
-                                <button onClick={() => onDelete(order.ID)} className='bg-red-500 p-2 grid content-center cursor-pointer text-white rounded-lg'>
+                                <button onClick={() => onDelete(order.id)} className='bg-red-500 p-2 grid content-center cursor-pointer text-white rounded-lg'>
                                     <FiTrash2 size={16} />
                                 </button>
                             </TableCell>
