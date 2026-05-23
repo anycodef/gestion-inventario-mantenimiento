@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation"
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button"
@@ -28,25 +28,24 @@ export default function ProductForm() {
         nivelMaximo: ''
       })
 
-      const fetchProducto = useCallback(async () => {
-        const response = await api.get(`/productos/info/${params.id}`)
-        setFormData({
-          nombre: response.data.nombre,
-          categoria: String(response.data.categoriaid),
-          precio: String(response.data.precio),
-          descripcion: response.data.descripcion,
-          marca: response.data.marca,
-          modelo: response.data.modelo,
-          nivelMinimo: String(response.data.nivel_minimo),
-          nivelMaximo: String(response.data.nivel_maximo)
-        })
-      }, [params.id])
-
       useEffect(() => {
-        if (params.id) {
-          fetchProducto()
-        }
-      }, [params.id, fetchProducto])
+        if (!params.id) return;
+        let active = true;
+        api.get(`/productos/info/${params.id}`).then(response => {
+          if (!active) return;
+          setFormData({
+            nombre: response.data.nombre,
+            categoria: String(response.data.categoriaid),
+            precio: String(response.data.precio),
+            descripcion: response.data.descripcion,
+            marca: response.data.marca,
+            modelo: response.data.modelo,
+            nivelMinimo: String(response.data.nivel_minimo),
+            nivelMaximo: String(response.data.nivel_maximo)
+          });
+        });
+        return () => { active = false; };
+      }, [params.id])
 
       const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
