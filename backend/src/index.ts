@@ -26,7 +26,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello, TypeScript with Express!');
 });
 
-app.get('/test-connection', async (req, res) => { try { const result = await db.query('SELECT NOW()'); res.json({ message: 'Conexión exitosa', time: result.rows[0].now }); } catch (_err) { res.status(500).send('Error al conectar a la base de datos'); } });
+app.get('/test-connection', async (req, res) => { try { const result = await db.query('SELECT NOW()'); res.json({ message: 'Conexión exitosa', time: result.rows[0].now }); } catch { res.status(500).send('Error al conectar a la base de datos'); } });
 
 // Manejo de errores para rutas no encontradas
 app.use((req, res) => {

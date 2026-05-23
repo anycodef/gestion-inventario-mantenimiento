@@ -6,7 +6,7 @@ import { DetalleCompra } from "../../../domain/entities/DetalleCompra";
 export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
     async obtenerTodas(): Promise<OrdenCompra[]> {
         try {
-            const [results] :any = await db.query(`
+            const [results] = await db.query(`
                 SELECT Orden_Compra.id, Proveedor.nombre AS nombreproveedor, Orden_Compra.fecha_compra, 
                    Orden_Compra.estado, Orden_Compra.total_compra
             FROM Orden_Compra
@@ -20,7 +20,7 @@ export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
     }
     async obtenerPorId(id: number): Promise<OrdenCompra | null> {
         try {
-            const [ordenes] : any[] = await db.query(`
+            const [ordenes] = await db.query(`
                 SELECT 
                 Orden_Compra.id,
                 Orden_Compra.fecha_compra,
@@ -64,7 +64,7 @@ export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
             await connection.query(queryStart);
 
             // Insertar la orden de compra
-            const [result]: any = await connection.query(`
+            const [result] = await connection.query(`
                 INSERT INTO orden_compra (ProveedorID, Fecha_Compra, Estado, Total_Compra)
                 VALUES (?, ?, ?, ?)`,
                 [data.proveedorId, data.fechaCompra, data.estado, 0]

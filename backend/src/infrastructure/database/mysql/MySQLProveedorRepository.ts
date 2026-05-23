@@ -70,7 +70,7 @@ export class MySQLProveedorRepository implements IProveedorRepository {
     }
 
     async existeProveedorPorId(id: number): Promise<boolean> {
-        const [results]: any = await db.query('SELECT 1 FROM proveedor WHERE id = ?', [id]);
+        const [results] = await db.query('SELECT 1 FROM proveedor WHERE id = ?', [id]);
         return results.length > 0;
     }
 }
