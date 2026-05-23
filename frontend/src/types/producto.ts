@@ -9,5 +9,5 @@ export interface Producto {
     nivel_maximo: number;
     nivel_minimo: number;
     stock_actual?: number;
-    nombre_categoria?: string;
+    nombrecategoria?: string;
 }
