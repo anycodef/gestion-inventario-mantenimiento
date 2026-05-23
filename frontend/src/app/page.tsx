@@ -6,6 +6,7 @@ import { GoAlertFill } from "react-icons/go";
 import { IoMdAlert } from "react-icons/io";
 
 import ListaProductos from "@/components/producto/ListaProductos";
+import ExportInventarioButton from "@/components/ExportInventarioButton";
 
 export default function Home() {
   const { inventario, loading } = useInventario();
@@ -58,9 +59,11 @@ export default function Home() {
         <h1 className="subtitle">Inventario</h1>
       </div>
       <div className="container-custom">
-        <h2 className="title">Inventario de Productos</h2>
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <h2 className="title">Inventario de Productos</h2>
+          {!loading && <ExportInventarioButton inventario={inventario} />}
+        </div>
         <div className="max-w-screen-lg mb-6">
-
           {loading ? <p>Cargando productos...</p> : <SimpleTable columns={columnsInventario} data={inventario}  />}
         </div>
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
