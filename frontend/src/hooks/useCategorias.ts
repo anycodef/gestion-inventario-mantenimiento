@@ -9,7 +9,7 @@ function useCategorias() {
             try {
                 const response = await api.get('/categorias');
                 setCategorias(response.data);
-            } catch (error) {
+            } catch {
                 throw new Error('Error al obtener las categorias');
             }
         }

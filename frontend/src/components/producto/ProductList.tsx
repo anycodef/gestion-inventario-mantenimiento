@@ -1,7 +1,7 @@
 import { Producto } from "@/types/producto";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
-import { FiBox, FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 import {
     Table,
     TableBody,
@@ -39,25 +39,25 @@ export default function ProductList({ productos }: Props) {
             </TableHeader>
             <TableBody>
                 {productos.map((producto) => (
-                    <TableRow key={producto.ID}>
-                        <TableCell>{producto.ID}</TableCell>
-                        <TableCell>{producto.NombreCategoria}</TableCell>
-                        <TableCell>{producto.Nombre}</TableCell>
-                        <TableCell>{producto.Descripcion}</TableCell>
-                        <TableCell>{producto.Marca}</TableCell>
-                        <TableCell>{producto.Modelo}</TableCell>
-                        <TableCell>{producto.Precio}</TableCell>
-                        <TableCell>{producto.Nivel_Minimo}</TableCell>
-                        <TableCell>{producto.Nivel_Maximo}</TableCell>
+                    <TableRow key={producto.id}>
+                        <TableCell>{producto.id}</TableCell>
+                        <TableCell>{producto.nombrecategoria}</TableCell>
+                        <TableCell>{producto.nombre}</TableCell>
+                        <TableCell>{producto.descripcion}</TableCell>
+                        <TableCell>{producto.marca}</TableCell>
+                        <TableCell>{producto.modelo}</TableCell>
+                        <TableCell>{producto.precio}</TableCell>
+                        <TableCell>{producto.nivel_minimo}</TableCell>
+                        <TableCell>{producto.nivel_maximo}</TableCell>
                         <TableCell>
                             <div className="flex flex-row gap-2">
-                                <div className="cursor-pointer bg-primary text-white rounded-md p-2 grid content-center" onClick={() => router.push(`/productos/${producto.ID}`)}>
+                                <div className="cursor-pointer bg-primary text-white rounded-md p-2 grid content-center" onClick={() => router.push(`/productos/${producto.id}`)}>
                                     <FiEdit size={16} />
                                 </div>
                                 <div className="cursor-pointer bg-red-500 text-white rounded-md p-2 grid content-center" onClick={async () => {
                                     const confirmation = confirm('¿Deseas eliminar el producto?');
                                     if (confirmation) {
-                                        const res = await api.delete(`/productos/${producto.ID}`);
+                                        const res = await api.delete(`/productos/${producto.id}`);
                                         const data = await res.data;
                                         console.log(data);
                                         router.refresh();
@@ -71,16 +71,5 @@ export default function ProductList({ productos }: Props) {
                 ))}
             </TableBody>
         </Table>
-
-        // <ul>
-        //     {productos.map((producto) => (
-        //         <li key={producto.ID}>
-
-        //             <FiBox />
-        //             {producto.ID}	
-        //             {producto.Nombre} - {producto.Precio}
-        //         </li>
-        //     ))}
-        // </ul>
     );
 }

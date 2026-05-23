@@ -6,7 +6,7 @@ import { DetalleCompra } from "../../../domain/entities/DetalleCompra";
 export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
     async obtenerTodas(): Promise<OrdenCompra[]> {
         try {
-            const [results] :any = await db.query(`
+            const [results] = await db.query(`
                 SELECT Orden_Compra.id, Proveedor.nombre AS nombreproveedor, Orden_Compra.fecha_compra, 
                    Orden_Compra.estado, Orden_Compra.total_compra
             FROM Orden_Compra
@@ -14,13 +14,13 @@ export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
             ORDER BY Orden_Compra.Fecha_Compra`);
 
             return results;
-        } catch (error:any) {
-            throw new Error('Error al obtener las ordenes de compra: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener las ordenes de compra: ' + (error as Error).message);
         }
     }
     async obtenerPorId(id: number): Promise<OrdenCompra | null> {
         try {
-            const [ordenes] : any[] = await db.query(`
+            const [ordenes] = await db.query(`
                 SELECT 
                 Orden_Compra.id,
                 Orden_Compra.fecha_compra,
@@ -52,8 +52,8 @@ export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
             ...ordenes[0],
             detalles,
         };
-        } catch (error: any) {
-            throw new Error('Error al obtener la orden de compra por ID: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener la orden de compra por ID: ' + (error as Error).message);
         }
     }
     async crear(data: { proveedorId: number; fechaCompra: Date; estado: string; detalles: DetalleCompra[] }): Promise<void> {
@@ -64,7 +64,7 @@ export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
             await connection.query(queryStart);
 
             // Insertar la orden de compra
-            const [result]: any = await connection.query(`
+            const [result] = await connection.query(`
                 INSERT INTO orden_compra (ProveedorID, Fecha_Compra, Estado, Total_Compra)
                 VALUES (?, ?, ?, ?)`,
                 [data.proveedorId, data.fechaCompra, data.estado, 0]
@@ -94,9 +94,9 @@ export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
             );
 
             await connection.query(queryEnd);
-        } catch (error: any) {
+        } catch (error) {
             await connection.query('ROLLBACK');
-            throw new Error('Error al crear la orden de compra y detalles: ' + error.message);
+            throw new Error('Error al crear la orden de compra y detalles: ' + (error as Error).message);
         } finally {
             connection.release();
         }
@@ -108,15 +108,15 @@ export class MySQLOrdenCompraRepository implements IOrdenCompraRepository {
                 'UPDATE orden_compra SET proveedorID = ?, Fecha_Compra = ?, estado = ?, Total_Compra = ? WHERE id = ?',
                 [proveedorId, fechaCompra, estado, totalCompra, id]
             );
-        } catch (error: any) {
-            throw new Error('Error al actualizar la orden de compra: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al actualizar la orden de compra: ' + (error as Error).message);
         }
     }
     async eliminar(id: number): Promise<void> {
         try {
             await db.execute('DELETE FROM orden_compra WHERE id = ?', [id]);
-        } catch (error: any) {
-            throw new Error('Error al eliminar la orden de compra: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al eliminar la orden de compra: ' + (error as Error).message);
         }
     }
 }

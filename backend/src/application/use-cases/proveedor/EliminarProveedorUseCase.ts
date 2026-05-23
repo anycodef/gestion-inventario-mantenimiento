@@ -1,5 +1,4 @@
 import { IProveedorRepository } from '../../../domain/repositories/IProveedorRepository';
-import { Proveedor } from '../../../domain/entities/Proveedor';
 
 export class EliminarProveedorUseCase {
 

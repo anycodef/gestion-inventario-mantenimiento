@@ -27,8 +27,8 @@ export class ProveedorController {
                 direccion
             });
             res.status(201).json({ message: 'Proveedor creado con éxito' });
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al crear el proveedor: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al crear el proveedor: ' + (error as Error).message });
         }
     }
 
@@ -36,8 +36,8 @@ export class ProveedorController {
         try {
             const proveedores = await this.obtenerTodosProveedoresUseCase.execute();
             res.json(proveedores);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener los proveedores: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener los proveedores: ' + (error as Error).message });
         }
     }
 
@@ -46,8 +46,8 @@ export class ProveedorController {
             const { id } = req.params;
             const proveedor = await this.obtenerProveedorPorIdUseCase.execute(parseInt(id));
             res.json(proveedor);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener el proveedor por ID: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener el proveedor por ID: ' + (error as Error).message });
         }
     }
 
@@ -72,8 +72,8 @@ export class ProveedorController {
                 direccion
             });
             res.status(200).json({ message: 'Proveedor actualizado con éxito' });
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al actualizar el proveedor: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al actualizar el proveedor: ' + (error as Error).message });
         }
     }
 
@@ -90,8 +90,8 @@ export class ProveedorController {
         try {
             await this.eliminarProveedorUseCase.execute(parseInt(id));
             res.status(200).json({ message: 'Proveedor eliminado con éxito' });
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al eliminar el proveedor: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al eliminar el proveedor: ' + (error as Error).message });
         }
     }
 }

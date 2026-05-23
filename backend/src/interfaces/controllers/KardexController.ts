@@ -13,8 +13,8 @@ export class KardexController {
       const movimiento = new Kardex(0, productoId, fechaMovimiento, tipoMovimiento, cantidad);
       await this.registrarMovimientoKardexUseCase.execute(movimiento);
       res.status(201).send({ mensaje: 'Movimiento de Kardex registrado exitosamente' });
-    } catch (error: any) {
-      res.status(400).send({ error: error.message });
+    } catch (error) {
+      res.status(400).send({ error: (error as Error).message });
     }
   }
 
@@ -22,8 +22,8 @@ export class KardexController {
     try {
       const movimientos = await this.obtenerMovimientosUseCase.execute();
       res.json(movimientos);
-    } catch (error: any) {
-      res.status(400).send({ error: error.message });
+    } catch (error) {
+      res.status(400).send({ error: (error as Error).message });
     }
   }
   

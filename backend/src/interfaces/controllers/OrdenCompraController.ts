@@ -4,8 +4,6 @@ import { ActualizarOrdenCompraUseCase } from '../../application/use-cases/orden-
 import { EliminarOrdenCompraUseCase } from '../../application/use-cases/orden-compra/EliminarOrdenCompraUseCase';
 import { ObtenerTodasOrdenesCompraUseCase } from '../../application/use-cases/orden-compra/ObtenerTodasOrdenesCompraUseCase';
 import { ObtenerOrdenCompraPorIdUseCase } from '../../application/use-cases/orden-compra/ObtenerOrdenCompraPorIdUseCase';
-import { OrdenCompra } from '../../domain/entities/OrdenCompra';
-
 export class OrdenCompraController {
   constructor(private crearOrdenCompraUseCase: CrearOrdenCompraUseCase, private actualizarOrdenCompraUseCase: ActualizarOrdenCompraUseCase, private obtenerTodasOrdenesCompraUseCase: ObtenerTodasOrdenesCompraUseCase, private eliminarOrdenCompraUseCase: EliminarOrdenCompraUseCase, private obtenerOrdenCompraPorId: ObtenerOrdenCompraPorIdUseCase) {}
 
@@ -13,8 +11,8 @@ export class OrdenCompraController {
     try {
       const ordenesCompra = await this.obtenerTodasOrdenesCompraUseCase.execute();
       res.json(ordenesCompra);
-    } catch (error: any) {
-      res.status(400).send({ error: error.message });
+    } catch (error) {
+      res.status(400).send({ error: (error as Error).message });
     }
   }
 
@@ -33,8 +31,8 @@ export class OrdenCompraController {
 
       await this.crearOrdenCompraUseCase.execute(ordenCompraData);
       res.status(201).send({ mensaje: 'Orden de compra creada exitosamente' });
-    } catch (error: any) {
-      res.status(400).send({ error: error.message });
+    } catch (error) {
+      res.status(400).send({ error: (error as Error).message });
     }
   }
 
@@ -42,7 +40,6 @@ export class OrdenCompraController {
     const { id } = req.params;
 
     const { proveedorId, fechaCompra, estado, totalCompra } = req.body;
-    console.log(proveedorId, fechaCompra, estado, totalCompra);
 
     try {
         await this.actualizarOrdenCompraUseCase.execute({
@@ -54,8 +51,8 @@ export class OrdenCompraController {
         });
 
         res.status(200).json({ message: 'Orden de compra actualizada con éxito' });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error) {
+        res.status(400).json({ message: (error as Error).message });
     }
 }
 
@@ -64,8 +61,8 @@ export class OrdenCompraController {
     try {
       await this.eliminarOrdenCompraUseCase.execute(parseInt(id));
       res.status(200).json({ message: 'Orden de compra eliminada con exito' });
-    } catch (error: any) {
-      res.status(400).send({ error: error.message });
+    } catch (error) {
+      res.status(400).send({ error: (error as Error).message });
     }
   }
 
@@ -74,8 +71,8 @@ export class OrdenCompraController {
       const { id } = req.params;
       const ordenCompra = await this.obtenerOrdenCompraPorId.execute(Number(id));
       res.json(ordenCompra);
-    } catch (error: any) {
-      res.status(400).send({ error: error.message });
+    } catch (error) {
+      res.status(400).send({ error: (error as Error).message });
     }
   }
 }

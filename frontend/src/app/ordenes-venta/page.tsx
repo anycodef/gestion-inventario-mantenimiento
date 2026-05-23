@@ -1,7 +1,6 @@
 "use client"
 import SimpleTable from "@/components/SimpleTable"
 import useOrdenesVenta from "@/hooks/useOrdenesVenta";
-import api from "@/lib/api";
 import { formatearFecha } from "@/lib/utils";
 import { useRouter} from "next/navigation"
 function OrdenesVenta() {

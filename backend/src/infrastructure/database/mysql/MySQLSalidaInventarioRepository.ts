@@ -7,10 +7,10 @@ import { DetalleSalida } from "../../../domain/entities/DetalleSalida";
 export class MySQLSalidaInventarioRepository implements ISalidaInventarioRepository {
     async obtenerTodas(): Promise<SalidaInventario[]> {
         try {
-            const [results] :any = await db.query('SELECT id, fecha_registro, motivo, area, estado, total_salida, observaciones FROM orden_salida_inventario;');
+            const [results] = await db.query('SELECT id, fecha_registro, motivo, area, estado, total_salida, observaciones FROM orden_salida_inventario;');
             return results;
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
     async obtenerPorId(id: number): Promise<SalidaInventario | null> {
@@ -29,13 +29,13 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
         WHERE 
           osi.id = ?;
       `;
-      const [result] : any[] = await db.query(query, [id]);
+      const [result] = await db.query(query, [id]);
       if (result.length === 0) {
         return null;
       }
       const salidaInventario : SalidaInventario = result[0];
     
-      const [ detallesSalida ] : any = await db.query(`
+      const [detallesSalida] = await db.query(`
         SELECT 
            ds.productoid,
             p.Nombre AS nombreproducto,
@@ -53,8 +53,8 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
       return {
         ...salidaInventario,
         detallesSalida}
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
         return null;
     }
@@ -74,10 +74,10 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
             WHERE 
               ds.Salida_InventarioID = ?
           `;
-          const [result] : any[] = await db.query(query, [salidaId]);
+          const [result] = await db.query(query, [salidaId]);
           return result;
-        } catch (error : any) {
-          throw new Error(error.message);
+        } catch (error) {
+          throw new Error((error as Error).message);
         }
       }
 
@@ -88,7 +88,7 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
           orden_salida_inventario (Fecha_Registro, Motivo, Area, Estado, Total_Salida, Observaciones)
         VALUES (?, ?, ?, ?, ?, ?)
       `;
-      const [result] : any = await db.query(query, [
+      const [result] = await db.query(query, [
         data.fechaRegistro,
         '', // Motivo is not defined in the data interface
         data.area,
@@ -98,8 +98,8 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
       ]);
       const salidaId = result.insertId;
       await Promise.all(data.detalles.map((detalleSalida) => this.crearDetalleSalida(detalleSalida, salidaId)));
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 
@@ -117,22 +117,22 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
             detalleSalida.precioUnitario,
             detalleSalida.subtotal
           ]);
-        } catch (error : any) {
-          throw new Error(error.message);
+        } catch (error) {
+          throw new Error((error as Error).message);
         }
       }
     async actualizar(): Promise<void> {
         try {
             
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
-    async eliminar(id: number): Promise<void> {
+    async eliminar(_id: number): Promise<void> {
         try {
             
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 }

@@ -3,7 +3,6 @@ import { DetalleSalidaController } from '../controllers/DetalleSalidaController'
 import { CrearDetalleSalidaUseCase } from '../../application/use-cases/detalle-salida/CrearDetalleSalidaUseCase';
 
 import { MySQLDetalleSalidaRepository } from '../../infrastructure/database/mysql/MySQLDetalleSalidaRepository';
-import { PostgreSQLDetalleSalidaRepository } from '../../infrastructure/database/postgresql/PostgreSQLDetalleSalidaRepository';
 const detalleSalidaRouter = Router();
 
 //POSTGRESQL

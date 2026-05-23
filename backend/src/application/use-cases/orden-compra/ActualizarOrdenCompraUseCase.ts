@@ -1,6 +1,5 @@
 import { IOrdenCompraRepository } from "../../../domain/repositories/IOrdenCompraRepository";
 import { IProveedorRepository } from "../../../domain/repositories/IProveedorRepository";
-import { OrdenCompra } from "../../../domain/entities/OrdenCompra";
 
 export class ActualizarOrdenCompraUseCase {
     constructor(private ordenCompraRepository: IOrdenCompraRepository, private proveedorRepository: IProveedorRepository) {}

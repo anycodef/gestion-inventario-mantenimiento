@@ -1,6 +1,5 @@
 "use client"
 import SimpleTable from '@/components/SimpleTable'
-import { useRouter } from 'next/navigation'
 import { useKardex } from '@/hooks/useKardex'
 import { formatearFecha } from '@/lib/utils'
 function Kardex() {

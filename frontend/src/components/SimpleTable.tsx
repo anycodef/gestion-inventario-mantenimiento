@@ -10,7 +10,6 @@ import {
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -18,19 +17,10 @@ import {
   } from "@/components/ui/table"
   import { FiEye, FiTrash2 } from "react-icons/fi";
   import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-  import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu";
-  import { Button } from "@/components/ui/button";
   import { Input } from "@/components/ui/input";
-  import { 
-    ChevronDown, 
-    ChevronUp, 
-    MoreVertical,
+  import {
+    ChevronDown,
+    ChevronUp,
     ArrowUpDown
   } from "lucide-react";
   

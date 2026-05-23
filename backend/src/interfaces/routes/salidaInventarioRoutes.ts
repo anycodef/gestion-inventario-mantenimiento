@@ -6,7 +6,6 @@ import { ObtenerSalidaInventarioPorIdUseCase } from '../../application/use-cases
 import { ActualizarSalidaInventarioUseCase } from '../../application/use-cases/salida-inventario/ActualizarSalidaInventarioUseCase';
 import { EliminarSalidaInventarioUseCase } from '../../application/use-cases/salida-inventario/EliminarSalidaInventarioUseCase';
 import { MySQLSalidaInventarioRepository } from '../../infrastructure/database/mysql/MySQLSalidaInventarioRepository';
-import { PostgreSQLSalidaInventarioRepository } from '../../infrastructure/database/postgresql/PostgreSQLSalidaInventarioRepository';
 const salidaInventarioRouter = Router();
 
 //POSTGRESQL

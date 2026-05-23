@@ -3,7 +3,7 @@ import { CrearDetalleSalidaUseCase } from "../../application/use-cases/detalle-s
 
 export class DetalleSalidaController {
     constructor(private crearDetalleSalidaUseCase: CrearDetalleSalidaUseCase) {}
-    async crear(req: Request, res: Response) {
+    async crear(_req: Request, _res: Response) {
         
 
     }

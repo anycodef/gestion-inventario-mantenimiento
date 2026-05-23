@@ -24,8 +24,8 @@ export class CategoriaController {
                 descripcion
             });
             res.status(201).json({ message: 'Categoría creada con éxito' });
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al crear la categoría: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al crear la categoría: ' + (error as Error).message });
         }
     }
 
@@ -33,8 +33,8 @@ export class CategoriaController {
         try {
             const categorias = await this.obtenerTodasCategoriasUseCase.execute();
             res.json(categorias);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener las categorías: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener las categorías: ' + (error as Error).message });
         }
     }
 
@@ -43,8 +43,8 @@ export class CategoriaController {
             const { id } = req.params;
             const categoria = await this.obtenerCategoriaPorIdUseCase.execute(parseInt(id));
             res.json(categoria);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener la categoría por ID: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener la categoría por ID: ' + (error as Error).message });
         }
     }
 
@@ -66,8 +66,8 @@ export class CategoriaController {
                 descripcion
             });
             res.status(200).json({ message: 'Categoría actualizada con éxito' });
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al actualizar la categoría: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al actualizar la categoría: ' + (error as Error).message });
         }
     }
 
@@ -84,8 +84,8 @@ export class CategoriaController {
         try {
             await this.eliminarCategoriaUseCase.execute(parseInt(id));
             res.status(200).json({ message: 'Categoría eliminada con éxito' });
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al eliminar la categoría: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al eliminar la categoría: ' + (error as Error).message });
         }
     }
 }

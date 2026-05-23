@@ -1,9 +1,7 @@
 import { Router } from "express";
-import { RecepcionCompra } from "../../domain/entities/RecepcionCompra";
 import { ObtenerTodosRecepcionCompraUseCase } from "../../application/use-cases/recepcion-compra/ObtenerTodosRecepcionCompra";
 import { RecepcionCompraController } from "../controllers/RecepcionCompraController";
 import { MySQLRecepcionCompraRepository } from "../../infrastructure/database/mysql/MySQLRecepcionCompraRepository";
-import { PostgreSQLRecepcionCompraRepository } from "../../infrastructure/database/postgresql/PostgreSQLRecepcionCompraRepository";
 const recepcionRoutes = Router();
 
 //MYSQL

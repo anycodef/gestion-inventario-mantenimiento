@@ -8,8 +8,8 @@ export class PostgreSQLSalidaInventarioRepository implements ISalidaInventarioRe
         try {
             const { rows } = await db.query('SELECT * FROM orden_salida_inventario');
             return rows;
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 
@@ -54,8 +54,8 @@ export class PostgreSQLSalidaInventarioRepository implements ISalidaInventarioRe
                 ...salidaInventario,
                 detallesSalida
             }
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 
@@ -76,8 +76,8 @@ export class PostgreSQLSalidaInventarioRepository implements ISalidaInventarioRe
             `;
             const { rows } = await db.query(query, [salidaId]);
             return rows;
-        } catch (error: any) {
-            throw new Error(error.message);
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 
@@ -98,8 +98,8 @@ export class PostgreSQLSalidaInventarioRepository implements ISalidaInventarioRe
             ]);
             const salidaId = rows[0].id;
             await Promise.all(data.detalles.map((detalleSalida) => this.crearDetalleSalida(detalleSalida, salidaId)));
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 
@@ -117,24 +117,24 @@ export class PostgreSQLSalidaInventarioRepository implements ISalidaInventarioRe
                 detalleSalida.precioUnitario,
                 detalleSalida.subtotal
             ]);
-        } catch (error: any) {
-            throw new Error(error.message);
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 
     async actualizar(): Promise<void> {
         try {
             // Implementar lógica de actualización si es necesario
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 
-    async eliminar(id: number): Promise<void> {
+    async eliminar(_id: number): Promise<void> {
         try {
             // Implementar lógica de eliminación si es necesario
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 }

@@ -3,7 +3,6 @@ import { KardexController } from '../controllers/KardexController';
 import { RegistrarMovimientoKardexUseCase } from '../../application/use-cases/kardex/RegistrarMovimientoKardexUseCase';
 import { ObtenerMovimientosUseCase } from '../../application/use-cases/kardex/ObtenerMovimientosUseCase';
 import { MySQLKardexRepository } from '../../infrastructure/database/mysql/MySQLKardexRepository';
-import { PostgreSQLKardexRepository } from '../../infrastructure/database/postgresql/PostgreSQLKardexRepository';
 
 const kardexRouter = Router();
 

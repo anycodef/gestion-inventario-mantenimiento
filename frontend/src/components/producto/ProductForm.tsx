@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import api from "@/lib/api";
 import useCategorias from "@/hooks/useCategorias";
 
@@ -29,24 +29,23 @@ export default function ProductForm() {
       })
 
       useEffect(() => {
-        
-        if (params.id) {
-          fetchProducto()
-        }
+        if (!params.id) return;
+        let active = true;
+        api.get(`/productos/info/${params.id}`).then(response => {
+          if (!active) return;
+          setFormData({
+            nombre: response.data.nombre,
+            categoria: String(response.data.categoriaid),
+            precio: String(response.data.precio),
+            descripcion: response.data.descripcion,
+            marca: response.data.marca,
+            modelo: response.data.modelo,
+            nivelMinimo: String(response.data.nivel_minimo),
+            nivelMaximo: String(response.data.nivel_maximo)
+          });
+        });
+        return () => { active = false; };
       }, [params.id])
-      async function fetchProducto() {
-        const response = await api.get(`/productos/info/${params.id}`)
-        setFormData({
-          nombre: response.data.nombre,
-          categoria: String(response.data.categoriaid),
-          precio: String(response.data.precio),
-          descripcion: response.data.descripcion,
-          marca: response.data.marca,
-          modelo: response.data.modelo,
-          nivelMinimo: String(response.data.nivel_minimo),
-          nivelMaximo: String(response.data.nivel_maximo)
-        })
-      }
 
       const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target

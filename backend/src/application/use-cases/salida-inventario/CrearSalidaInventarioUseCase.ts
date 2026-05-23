@@ -1,6 +1,5 @@
 import { ISalidaInventarioRepository } from '../../../domain/repositories/ISalidaInventarioRepository';
 import { DetalleSalida } from '../../../domain/entities/DetalleSalida';
-import { SalidaInventario } from '../../../domain/entities/SalidaInventario';
 
 export class CrearSalidaInventarioUseCase {
   constructor(private salidaInventarioRepository: ISalidaInventarioRepository) {}
