@@ -1,9 +1,7 @@
 "use client"
 import { useProveedores } from '@/hooks/useProveedores'
 import SimpleTable from '@/components/SimpleTable'
-import { useRouter } from 'next/navigation';
 function Proveedores() {
-  const router = useRouter();
   const { proveedores, loading } = useProveedores();
 
   const columns = [

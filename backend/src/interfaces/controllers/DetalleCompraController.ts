@@ -1,6 +1,4 @@
-import { Request, Response } from 'express';
 // import { CrearDetalleCompraUseCase } from '../../application/use-cases/detalle-compra/CrearDetalleCompraUseCase';
-import { DetalleCompra } from '../../domain/entities/DetalleCompra';
 
 export class DetalleCompraController {
 //   constructor(private crearDetalleCompraUseCase: CrearDetalleCompraUseCase) {}

@@ -1,5 +1,4 @@
 import { ICategoriaRepository } from "../../../domain/repositories/ICategoriaRepository";
-import { Categoria } from "../../../domain/entities/Categoria";
 
 export class EliminarCategoriaUseCase {
     constructor(private categoriaRepository: ICategoriaRepository) {}

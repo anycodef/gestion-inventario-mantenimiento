@@ -1,8 +1,6 @@
 "use client";
 import SimpleTable from "@/components/SimpleTable";
-import { useRouter } from "next/navigation";
 import { useInventario } from "@/hooks/useInventario";
-import { useKardex } from "@/hooks/useKardex";
 import { useProductosAlerta } from "@/hooks/useProductosAlerta";
 import { GoAlertFill } from "react-icons/go";
 import { IoMdAlert } from "react-icons/io";

@@ -1,5 +1,5 @@
 "use client"
-import { getOrdenesCompra, deleteOrdenCompra } from "@/lib/api";
+import { deleteOrdenCompra } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import useOrdenesCompra from "@/hooks/useOrdenesCompra";
 import SimpleTable from "@/components/SimpleTable";

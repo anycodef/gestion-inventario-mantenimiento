@@ -1,5 +1,4 @@
 "use client"
-import ProductList from "@/components/producto/ProductList"
 import Link from "next/link"
 import { useProductos } from "@/hooks/useProductos"
 import SimpleTable from "@/components/SimpleTable"

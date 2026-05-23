@@ -2,15 +2,15 @@ import { IDetalleSalidaRepository } from "../../../domain/repositories/IDetalleS
 import { DetalleSalida } from "../../../domain/entities/DetalleSalida";
 
 export class PostgreSQLDetalleSalidaRepository implements IDetalleSalidaRepository {
-    async obtenerDetallesPorSalida(salidaId: number): Promise<DetalleSalida[]> {
+    async obtenerDetallesPorSalida(_salidaId: number): Promise<DetalleSalida[]> {
         //TODO
         return [];
     }
-    async agregarDetalle(detalleSalida: DetalleSalida): Promise<void> {
+    async agregarDetalle(_detalleSalida: DetalleSalida): Promise<void> {
         //TODO
     }
 
-    async eliminarPorSalida(salidaId: number): Promise<void> {
+    async eliminarPorSalida(_salidaId: number): Promise<void> {
         //TODO
     }
 }

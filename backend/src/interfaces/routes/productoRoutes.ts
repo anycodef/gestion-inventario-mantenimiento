@@ -5,13 +5,10 @@ import { ObtenerTodosProductosUseCase } from '../../application/use-cases/produc
 import { ObtenerProductoPorIdUseCase } from '../../application/use-cases/producto/ObtenerProductoPorIdUseCase';
 import { ActualizarProductoUseCase } from '../../application/use-cases/producto/ActualizarProductoUseCase';
 import { EliminarProductoUseCase } from '../../application/use-cases/producto/EliminarProductoUseCase';
-import { ActualizarStockProductoUseCase } from '../../application/use-cases/producto/ActualizarStockProductoUseCase';
-import { CambiarEstadoProductoUseCase } from '../../application/use-cases/producto/CambiarEstadoProductoUseCase';
 import { ObtenerListaProductosUseCase } from '../../application/use-cases/producto/ObtenerListaProductosUseCase';
 import { ObtenerInventarioProductosUseCase } from '../../application/use-cases/producto/ObtenerInventarioProductosUseCase';
 import { ObtenerProductosMaximosUseCase } from '../../application/use-cases/producto/ObtenerProductosMaximos';
 import { ObtenerProductosMinimosUseCase } from '../../application/use-cases/producto/ObtenerProductosMinimosUseCase';
-import { MySQLProductoRepository } from '../../infrastructure/database/mysql/MySQLProductoRepository';
 import { PostgreSQLProductoRepository } from '../../infrastructure/database/postgresql/PostgreSQLProductoRepository';
 const productoRouter = Router();
 
@@ -23,8 +20,6 @@ const productoRepository = new PostgreSQLProductoRepository();
 // const productoRepository = new MySQLProductoRepository();
 
 
-const actualizarStockProductoUseCase = new ActualizarStockProductoUseCase(productoRepository);
-const cambiarEstadoProductoUseCase = new CambiarEstadoProductoUseCase(productoRepository);
 const crearProductoUseCase = new CrearProductoUseCase(productoRepository);
 const obtenerListaProductosUseCase = new ObtenerListaProductosUseCase(productoRepository);
 const obtenerTodosProductosUseCase = new ObtenerTodosProductosUseCase(productoRepository);
@@ -47,9 +42,7 @@ const productoController = new ProductoController(
   obtenerProductosMinimosUseCase
 );
 
-productoRouter.post('/', (req, res) => {
-  console.log(req.body); 
-  productoController.crear(req, res)});
+productoRouter.post('/', (req, res) => productoController.crear(req, res));
 productoRouter.get('/', (req, res) => productoController.obtenerTodosProductos(req, res));
 productoRouter.get('/inventario', (req, res) => productoController.obtenerInventario(req, res));
 productoRouter.get('/info/:id', (req, res) => productoController.obtenerPorId(req, res));

@@ -8,12 +8,12 @@ export class PostgreSQLKardexRepository implements IKardexRepository {
         try {
             const { rows } = await db.query('SELECT * FROM kardex');
             return rows as Kardex[];
-        } catch (error: any) {
-            throw new Error('Error al obtener los movimientos de Kardex: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener los movimientos de Kardex: ' + (error as Error).message);
         }
     }
 
-    async registrarMovimiento(kardex: Kardex): Promise<void> {
+    async registrarMovimiento(_kardex: Kardex): Promise<void> {
         //TODO
     }
 
