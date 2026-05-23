@@ -7,10 +7,9 @@ export class RecepcionCompraController {
   async obtenerRecepciones(req: Request, res: Response) {
     try {
       const recepciones = await this.obtenerRecepcionesCompra.execute();
-      console.log(recepciones);
       res.status(200).json(recepciones);
-    } catch (error : any) {
-      res.status(500).json({ error: 'Error interno del servidor' + error.message });
+    } catch (error) {
+      res.status(500).json({ error: 'Error interno del servidor' + (error as Error).message });
     }
   }
 }

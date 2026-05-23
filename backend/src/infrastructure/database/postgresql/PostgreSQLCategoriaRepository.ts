@@ -7,8 +7,8 @@ export class PostgreSQLCategoriaRepository implements ICategoriaRepository {
         try {
             const { rows } = await db.query('SELECT id, nombre FROM categoria');
             return rows as Categoria[];
-        } catch (error: any) {
-            throw new Error('Error al obtener todas las categorías: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener todas las categorías: ' + (error as Error).message);
         }
     }
 
@@ -16,8 +16,8 @@ export class PostgreSQLCategoriaRepository implements ICategoriaRepository {
         try {
             const { rows } = await db.query('SELECT * FROM categoria WHERE id = $1', [id]);
             return rows.length > 0 ? rows[0] : null;
-        } catch (error: any) {
-            throw new Error('Error al obtener la categoría por ID: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener la categoría por ID: ' + (error as Error).message);
         }
     }
 
@@ -28,8 +28,8 @@ export class PostgreSQLCategoriaRepository implements ICategoriaRepository {
                 'INSERT INTO categoria (nombre, descripcion) VALUES ($1, $2)', 
                 [nombre, descripcion]
             );
-        } catch (error: any) {
-            throw new Error('Error al crear la categoría: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al crear la categoría: ' + (error as Error).message);
         }
     }
 
@@ -40,16 +40,16 @@ export class PostgreSQLCategoriaRepository implements ICategoriaRepository {
                 'UPDATE categoria SET nombre = $1, descripcion = $2 WHERE id = $3', 
                 [nombre, descripcion, id]
             );
-        } catch (error: any) {
-            throw new Error('Error al actualizar la categoría: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al actualizar la categoría: ' + (error as Error).message);
         }
     }
 
     async eliminar(id: number): Promise<void> {
         try {
             await db.query('DELETE FROM categoria WHERE id = $1', [id]);
-        } catch (error: any) {
-            throw new Error('Error al eliminar la categoría: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al eliminar la categoría: ' + (error as Error).message);
         }
     }
 }

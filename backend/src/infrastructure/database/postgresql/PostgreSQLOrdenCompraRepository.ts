@@ -14,8 +14,8 @@ export class PostgreSQLOrdenCompraRepository implements IOrdenCompraRepository {
                 ORDER BY Orden_Compra.Fecha_Compra DESC
             `);
             return rows;
-        } catch (error: any) {
-            throw new Error('Error al obtener las órdenes de compra: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener las órdenes de compra: ' + (error as Error).message);
         }
     }
 
@@ -54,8 +54,8 @@ export class PostgreSQLOrdenCompraRepository implements IOrdenCompraRepository {
                 ...ordenes[0],
                 detalles,
             };
-        } catch (error: any) {
-            throw new Error('Error al obtener la orden de compra por ID: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener la orden de compra por ID: ' + (error as Error).message);
         }
     }
 
@@ -93,9 +93,9 @@ export class PostgreSQLOrdenCompraRepository implements IOrdenCompraRepository {
             `, [totalCompra, ordenCompraId]);
 
             await client.query('COMMIT');
-        } catch (error: any) {
+        } catch (error) {
             await client.query('ROLLBACK');
-            throw new Error('Error al crear la orden de compra y detalles: ' + error.message);
+            throw new Error('Error al crear la orden de compra y detalles: ' + (error as Error).message);
         } finally {
             client.release();
         }
@@ -108,16 +108,16 @@ export class PostgreSQLOrdenCompraRepository implements IOrdenCompraRepository {
                 'UPDATE orden_compra SET ProveedorID = $1, Fecha_Compra = $2, Estado = $3, Total_Compra = $4 WHERE ID = $5',
                 [proveedorId, fechaCompra, estado, totalCompra, id]
             );
-        } catch (error: any) {
-            throw new Error('Error al actualizar la orden de compra: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al actualizar la orden de compra: ' + (error as Error).message);
         }
     }
 
     async eliminar(id: number): Promise<void> {
         try {
             await db.query('DELETE FROM orden_compra WHERE ID = $1', [id]);
-        } catch (error: any) {
-            throw new Error('Error al eliminar la orden de compra: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al eliminar la orden de compra: ' + (error as Error).message);
         }
     }
 }

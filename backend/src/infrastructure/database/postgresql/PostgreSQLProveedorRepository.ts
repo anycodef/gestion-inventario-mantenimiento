@@ -7,8 +7,8 @@ export class PostgreSQLProveedorRepository implements IProveedorRepository {
         try {
             const { rows } = await db.query('SELECT * FROM proveedor');
             return rows as Proveedor[];
-        } catch (error: any) {
-            throw new Error('Error al obtener todos los proveedores: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener todos los proveedores: ' + (error as Error).message);
         }
     }
 
@@ -22,8 +22,8 @@ export class PostgreSQLProveedorRepository implements IProveedorRepository {
                     proveedor;
             `);
             return rows as { id: number; nombre: string; }[];
-        } catch (error : any) {
-            throw new Error('Error al obtener la lista de proveedores: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener la lista de proveedores: ' + (error as Error).message);
         }
     }
 
@@ -31,8 +31,8 @@ export class PostgreSQLProveedorRepository implements IProveedorRepository {
         try {
             const { rows } = await db.query('SELECT * FROM proveedor WHERE id = $1', [id]);
             return rows.length > 0 ? rows[0] : null;
-        } catch (error: any) {
-            throw new Error('Error al obtener el proveedor por ID: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al obtener el proveedor por ID: ' + (error as Error).message);
         }
     }
 
@@ -43,8 +43,8 @@ export class PostgreSQLProveedorRepository implements IProveedorRepository {
                 'INSERT INTO proveedor (nombre, contacto, telefono, email, direccion) VALUES ($1, $2, $3, $4, $5)',
                 [nombre, contacto, telefono, email, direccion]
             );
-        } catch (error: any) {
-            throw new Error('Error al crear el proveedor: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al crear el proveedor: ' + (error as Error).message);
         }
     }
 
@@ -55,16 +55,16 @@ export class PostgreSQLProveedorRepository implements IProveedorRepository {
                 'UPDATE proveedor SET nombre = $1, contacto = $2, telefono = $3, email = $4, direccion = $5 WHERE id = $6',
                 [nombre, contacto, telefono, email, direccion, id]
             );
-        } catch (error: any) {
-            throw new Error('Error al actualizar el proveedor: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al actualizar el proveedor: ' + (error as Error).message);
         }
     }
 
     async eliminar(id: number): Promise<void> {
         try {
             await db.query('DELETE FROM proveedor WHERE id = $1', [id]);
-        } catch (error: any) {
-            throw new Error('Error al eliminar el proveedor: ' + error.message);
+        } catch (error) {
+            throw new Error('Error al eliminar el proveedor: ' + (error as Error).message);
         }
     } 
 

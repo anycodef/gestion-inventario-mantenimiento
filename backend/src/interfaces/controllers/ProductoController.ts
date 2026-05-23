@@ -24,7 +24,6 @@ export class ProductoController {
 
     async crear(req: Request, res: Response): Promise<void> {
         const { nombre, categoriaId, precio, descripcion, marca, modelo, nivelMaximo, nivelMinimo } = req.body;
-        console.log(nombre, categoriaId, precio, descripcion, marca, modelo, nivelMaximo, nivelMinimo);
         try {
             await this.crearProductoUseCase.execute({
                 id: 0,
@@ -38,16 +37,16 @@ export class ProductoController {
                 nivelMinimo
             });
             res.status(201).json({ message: 'Producto creado con éxito' });
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al crear el producto: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al crear el producto: ' + (error as Error).message });
         }
     }
     async obtenerlista(req: Request, res: Response): Promise<void> {
         try {
             const productos = await this.obtenerListaProductosUseCase.execute();
             res.json(productos);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener los productos: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener los productos: ' + (error as Error).message });
         }
     }
 
@@ -55,8 +54,8 @@ export class ProductoController {
         try {
             const productos = await this.obtenerTodosProductosUseCase.execute();
             res.json(productos);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener los productos: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener los productos: ' + (error as Error).message });
         }
     }
 
@@ -65,8 +64,8 @@ export class ProductoController {
             const { id } = req.params;
             const producto = await this.obtenerProductoPorIdUseCase.execute(parseInt(id));
             res.json(producto);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener el producto por ID: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener el producto por ID: ' + (error as Error).message });
         }
     }
 
@@ -93,8 +92,8 @@ export class ProductoController {
                 nivelMinimo
             });
             res.status(200).json({ message: 'Producto actualizado con exito' });
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al actualizar el producto: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al actualizar el producto: ' + (error as Error).message });
         }
     }
 
@@ -110,8 +109,8 @@ export class ProductoController {
         try {
             await this.eliminarProductoUseCase.execute(parseInt(id));
             res.status(200).json({ message: 'Producto eliminado con exito' });
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al eliminar el producto: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al eliminar el producto: ' + (error as Error).message });
         }
     }
 
@@ -119,8 +118,8 @@ export class ProductoController {
         try {
             const inventario = await this.obtenerInventarioProductosUseCase.execute();
             res.json(inventario);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener el inventario de productos: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener el inventario de productos: ' + (error as Error).message });
         }
     }
 
@@ -128,16 +127,16 @@ export class ProductoController {
         try {
             const productosMinimos = await this.obtenerProductosMinimosUseCase.execute();
             res.json(productosMinimos);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener los productos minimos: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener los productos minimos: ' + (error as Error).message });
         }
     }
     async obtenerMaximos(req: Request, res: Response): Promise<void> {
         try {
             const productosMaximos = await this.obtenerProductosMaximosUseCase.execute();
             res.json(productosMaximos);
-        } catch (error: any) {
-            res.status(500).json({ message: 'Error al obtener los productos minimos: ' + error.message });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener los productos minimos: ' + (error as Error).message });
         }
     }
 

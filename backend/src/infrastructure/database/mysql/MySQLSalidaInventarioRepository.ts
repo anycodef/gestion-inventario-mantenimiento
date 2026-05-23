@@ -9,8 +9,8 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
         try {
             const [results] :any = await db.query('SELECT id, fecha_registro, motivo, area, estado, total_salida, observaciones FROM orden_salida_inventario;');
             return results;
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
     async obtenerPorId(id: number): Promise<SalidaInventario | null> {
@@ -53,8 +53,8 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
       return {
         ...salidaInventario,
         detallesSalida}
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
         return null;
     }
@@ -76,8 +76,8 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
           `;
           const [result] : any[] = await db.query(query, [salidaId]);
           return result;
-        } catch (error : any) {
-          throw new Error(error.message);
+        } catch (error) {
+          throw new Error((error as Error).message);
         }
       }
 
@@ -98,8 +98,8 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
       ]);
       const salidaId = result.insertId;
       await Promise.all(data.detalles.map((detalleSalida) => this.crearDetalleSalida(detalleSalida, salidaId)));
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 
@@ -117,22 +117,22 @@ export class MySQLSalidaInventarioRepository implements ISalidaInventarioReposit
             detalleSalida.precioUnitario,
             detalleSalida.subtotal
           ]);
-        } catch (error : any) {
-          throw new Error(error.message);
+        } catch (error) {
+          throw new Error((error as Error).message);
         }
       }
     async actualizar(): Promise<void> {
         try {
             
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
-    async eliminar(id: number): Promise<void> {
+    async eliminar(_id: number): Promise<void> {
         try {
             
-        } catch (error: any) {
-            throw new Error(error.message); 
+        } catch (error) {
+            throw new Error((error as Error).message);
         }
     }
 }
