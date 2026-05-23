@@ -1,7 +1,7 @@
 import { Producto } from "@/types/producto";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
-import { FiBox, FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 import {
     Table,
     TableBody,
