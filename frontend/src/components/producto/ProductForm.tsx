@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation"
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button"
@@ -28,13 +28,7 @@ export default function ProductForm() {
         nivelMaximo: ''
       })
 
-      useEffect(() => {
-        
-        if (params.id) {
-          fetchProducto()
-        }
-      }, [params.id])
-      async function fetchProducto() {
+      const fetchProducto = useCallback(async () => {
         const response = await api.get(`/productos/info/${params.id}`)
         setFormData({
           nombre: response.data.nombre,
@@ -46,7 +40,13 @@ export default function ProductForm() {
           nivelMinimo: String(response.data.nivel_minimo),
           nivelMaximo: String(response.data.nivel_maximo)
         })
-      }
+      }, [params.id])
+
+      useEffect(() => {
+        if (params.id) {
+          fetchProducto()
+        }
+      }, [params.id, fetchProducto])
 
       const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
