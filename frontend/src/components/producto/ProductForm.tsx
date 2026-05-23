@@ -44,7 +44,6 @@ export default function ProductForm() {
 
       useEffect(() => {
         if (params.id) {
-          // eslint-disable-next-line react-hooks/set-state-in-effect
           fetchProducto()
         }
       }, [params.id, fetchProducto])
