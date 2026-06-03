@@ -1,18 +1,27 @@
 name: CI
 
 on:
+  # AGREGADO: push a main para mantener la línea base del trunk en SonarQube.
+  # Sin esto el análisis de PRs no tiene referencia con qué comparar.
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
   build:
-    name: Lint & Build
+    name: Lint, Build & Analyze
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # AGREGADO: fetch-depth 0 es obligatorio para que Sonar identifique
+          # correctamente qué código es "nuevo" al analizar un PR.
+          fetch-depth: 0
 
+      # ── SIN CAMBIOS desde tu workflow original ──────────────────────────────
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -46,3 +55,30 @@ jobs:
         env:
           NEXT_PUBLIC_API_URL: http://localhost:3001/api
         run: pnpm build
+      # ────────────────────────────────────────────────────────────────────────
+
+      # AGREGADO: genera el reporte de ESLint en JSON para que Sonar lo ingiera
+      # como reporte externo y muestre los issues de lint en su dashboard.
+      # continue-on-error: true porque el step "Lint" de arriba ya garantiza
+      # que el pipeline falla si hay errores; aquí solo generamos el archivo.
+      - name: ESLint JSON report (frontend)
+        working-directory: frontend
+        run: pnpm exec eslint ./src --format json --output-file ../eslint-report.json
+        continue-on-error: true
+
+      # AGREGADO: cobertura de pruebas para el Quality Gate.
+      # TODO: este step no hace nada útil aún porque el proyecto no tiene
+      # tests escritos ni Jest/Vitest configurado en frontend/package.json.
+      # Cuando agregues tests, quita el continue-on-error y configura Jest:
+      #   https://nextjs.org/docs/app/building-your-application/testing/jest
+      - name: Run tests with coverage (frontend)
+        working-directory: frontend
+        run: pnpm test -- --coverage --watchAll=false --coverageReporters=lcov
+        continue-on-error: true
+
+      # AGREGADO: scan de SonarQube Cloud.
+      # Lee sonar-project.properties de la raíz del repo automáticamente.
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
