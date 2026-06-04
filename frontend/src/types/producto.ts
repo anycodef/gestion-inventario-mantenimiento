@@ -10,4 +10,6 @@ export interface Producto {
     nivel_minimo: number;
     stock_actual?: number;
     nombrecategoria?: string;
+    sku?: string;
+    estado?: string;
 }
