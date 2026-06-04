@@ -3,8 +3,11 @@ import { IProductoRepository } from '../../../domain/repositories/IProductoRepos
 export class ActualizarStockProductoUseCase {
     constructor(private productoRepository: IProductoRepository) {}
 
-    async execute(_productoID: number, _cantidad: number): Promise<void> {
-        // TODO: Implementar lógica para actualizar el stock del producto
-        // await this.productoRepository.actualizarStock(productoID, cantidad);
+    async execute(productoId: number, cantidad: number): Promise<void> {
+        const producto = await this.productoRepository.obtenerPorId(productoId);
+        if (!producto) {
+            throw new Error(`El producto con id ${productoId} no existe.`);
+        }
+        await this.productoRepository.actualizarStock(productoId, cantidad);
     }
 }
