@@ -1,6 +1,6 @@
+import 'newrelic';
 import dotenv from 'dotenv';
 dotenv.config();
-import 'newrelic';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import productoRouter from './interfaces/routes/productoRoutes';
