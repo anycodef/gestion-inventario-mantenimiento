@@ -33,6 +33,9 @@ services:
       PORT: ${PORT:-3001}
       SONAR_HOST_URL: http://sonarqube:9000
       SONAR_TOKEN: ${SONAR_TOKEN}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
+      NEW_RELIC_APP_NAME: ${NEW_RELIC_APP_NAME}
     ports:
       - "${PORT:-3001}:${PORT:-3001}"
     volumes:
@@ -54,6 +57,8 @@ services:
       WATCHPACK_POLLING: ${WATCHPACK_POLLING:-true}
       SONAR_HOST_URL: http://sonarqube:9000
       SONAR_TOKEN: ${SONAR_TOKEN}
+      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
+      NEW_RELIC_FRONTEND_APP_NAME: ${NEW_RELIC_FRONTEND_APP_NAME:-gestion-inventario-frontend}
     ports:
       - "3000:3000"
     volumes:

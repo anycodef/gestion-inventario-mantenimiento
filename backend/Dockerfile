@@ -1,6 +1,9 @@
 # Stage 1: Base
 FROM node:24-alpine AS base
 
+# Set CI=true to make pnpm non-interactive and avoid TTY prompts
+ENV CI=true
+
 # Install pnpm globally to match project lockfile
 RUN npm install -g pnpm@11.1.2
 
@@ -10,7 +13,7 @@ WORKDIR /app
 FROM base AS dependencies
 
 # Copy package files first to leverage caching
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Install all dependencies including devDependencies (needed for TypeScript compiling/running)
 RUN pnpm install --frozen-lockfile
