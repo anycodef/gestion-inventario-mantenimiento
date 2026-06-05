@@ -17,6 +17,7 @@ Sistema web para la gestión de inventario, órdenes de compra, movimientos de s
 - [Ejecución](#ejecución)
 - [Observabilidad y Monitoreo](#observabilidad-y-monitoreo)
 - [Linting](#linting)
+- [Análisis de Código con SonarQube](#análisis-de-código-con-sonarqube)
 - [Gestión de Cambios](#gestión-de-cambios)
 - [Equipos](#equipos)
 
@@ -221,6 +222,44 @@ pnpm lint:fix
 ```
 
 La configuración de ESLint aplica reglas de TypeScript estrictas para el backend y reglas de React/hooks para el frontend (ver `eslint.config.js`).
+
+---
+
+## Análisis de Código con SonarQube
+
+El proyecto cuenta con integración de **SonarQube Community** localmente para medir la calidad del código, cobertura de pruebas y detección de vulnerabilidades/deuda técnica de forma independiente para el frontend y backend.
+
+### 1. Iniciar los Servicios
+Para levantar la base de datos de SonarQube y el servidor local:
+```bash
+docker-compose up -d sonar-db sonarqube
+```
+> [!NOTE]
+> SonarQube requiere configurar el límite de memoria virtual en el host en sistemas Linux (`sudo sysctl -w vm.max_map_count=262144`).
+
+El servidor estará operativo en unos minutos en `http://localhost:9000`.
+
+### 2. Configuración de Credenciales
+1. Accede a `http://localhost:9000` e inicia sesión con el usuario/contraseña predeterminado: `admin`/`admin` (se te pedirá cambiarla al primer inicio).
+2. Ve a **My Account** > **Security** > **Generate Tokens** y genera un token de tipo *User Token*.
+3. Copia el token y agrégalo en tu archivo `.env` en la raíz del proyecto:
+   ```env
+   SONAR_TOKEN=tu_token_generado_aqui
+   ```
+
+### 3. Ejecutar el Análisis
+Como los contenedores están orquestados en Docker Compose, debes ejecutar el análisis directamente dentro de los contenedores activos:
+
+* **Para el Frontend (Next.js):**
+  ```bash
+  docker compose exec frontend pnpm sonar
+  ```
+* **Para el Backend (Express):**
+  ```bash
+  docker compose exec backend pnpm sonar
+  ```
+
+Los resultados del análisis se subirán de forma automática y se reflejarán por separado en tu servidor local de SonarQube.
 
 ---
 

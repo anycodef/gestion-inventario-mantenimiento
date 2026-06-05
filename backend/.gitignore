@@ -1,4 +1,5 @@
 .env
 .pnpm-store/
 .pnpm/
+.scannerwork/
 newrelic_agent.log
