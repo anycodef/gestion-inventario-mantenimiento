@@ -1,3 +1,4 @@
 .env
 .pnpm-store/
 .pnpm/
+newrelic_agent.log

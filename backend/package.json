@@ -20,12 +20,22 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.0",
     "mysql2": "^3.11.3",
+    "newrelic": "^14.1.0",
     "pg": "^8.13.1",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.6.2"
   },
-  "packageManager": "pnpm@11.1.2+sha512.415a1cc25974731e75455c1468371be74c5aa5fb7621b50d4056d222451609f11412f23fd602e6169f1e060466641f798597e1be961a10688836a67b16569499"
+  "packageManager": "pnpm@11.1.2+sha512.415a1cc25974731e75455c1468371be74c5aa5fb7621b50d4056d222451609f11412f23fd602e6169f1e060466641f798597e1be961a10688836a67b16569499",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@datadog/pprof",
+      "@newrelic/fn-inspect",
+      "@newrelic/native-metrics",
+      "protobufjs"
+    ]
+  }
 }

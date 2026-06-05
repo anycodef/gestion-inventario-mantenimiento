@@ -15,6 +15,7 @@ Sistema web para la gestión de inventario, órdenes de compra, movimientos de s
 - [Requisitos Previos](#requisitos-previos)
 - [Instalación y Configuración](#instalación-y-configuración)
 - [Ejecución](#ejecución)
+- [Observabilidad y Monitoreo](#observabilidad-y-monitoreo)
 - [Linting](#linting)
 - [Gestión de Cambios](#gestión-de-cambios)
 - [Equipos](#equipos)
@@ -41,6 +42,7 @@ El sistema permite a las organizaciones:
 | **Base de datos** | PostgreSQL · MySQL (implementaciones duales) |
 | **Infraestructura** | Docker · Docker Compose |
 | **Gestor de paquetes** | pnpm (workspace monorepo) |
+| **Observabilidad** | New Relic APM (backend + frontend) |
 | **Linting** | ESLint (TypeScript + React) |
 
 ---
@@ -89,6 +91,7 @@ El sistema soporta dos motores de base de datos de forma intercambiable. La capa
 - [Node.js](https://nodejs.org/) >= 18
 - [pnpm](https://pnpm.io/) >= 11 — `npm install -g pnpm`
 - [Docker](https://www.docker.com/) y Docker Compose (para levantar las bases de datos)
+- Cuenta en [New Relic](https://newrelic.com/) (free tier, sin tarjeta de crédito) para monitoreo
 
 ---
 
@@ -115,26 +118,41 @@ Copiar el archivo de ejemplo y completar los valores:
 cp .env.example .env
 ```
 
-Variables requeridas (ver `.env.example` para la lista completa):
+Variables requeridas:
 
 ```env
-# Base de datos activa: "mysql" o "postgresql"
+# --- Base de datos activa ---
+# Opciones: "mysql" o "postgresql"
 DB_TYPE=postgresql
 
-# PostgreSQL
-PG_HOST=localhost
-PG_PORT=5432
-PG_USER=postgres
-PG_PASSWORD=yourpassword
-PG_DATABASE=inventario
+# --- PostgreSQL ---
+POSTGRESQL_HOST=localhost
+POSTGRESQL_USER=postgres
+POSTGRESQL_PASSWORD=yourpassword
+POSTGRESQL_DB=inventario
+POSTGRESQL_PORT=5432
 
-# MySQL
+# --- MySQL ---
 MYSQL_HOST=localhost
 MYSQL_PORT=3306
 MYSQL_USER=root
 MYSQL_PASSWORD=yourpassword
 MYSQL_DATABASE=inventario
+
+# --- Backend ---
+PORT=3001
+
+# --- Frontend ---
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+
+# --- New Relic (Observabilidad) ---
+# Obtener la license key desde: https://one.newrelic.com → API keys
+NEW_RELIC_LICENSE_KEY=YOUR_NEW_RELIC_LICENSE_KEY
+NEW_RELIC_APP_NAME=gestion-inventario-backend
+NEW_RELIC_FRONTEND_APP_NAME=gestion-inventario-frontend
 ```
+
+> **Nota:** Las variables `NEW_RELIC_*` son opcionales para desarrollo local. El sistema funciona sin ellas; simplemente no enviará métricas a New Relic. Para producción o ambientes de QA se recomienda configurarlas.
 
 **4. Levantar la base de datos con Docker**
 
@@ -165,6 +183,30 @@ docker-compose up
 ```
 
 El frontend estará disponible en `http://localhost:3000` y el backend en `http://localhost:3001` (o según lo configurado en `.env`).
+
+---
+
+## Observabilidad y Monitoreo
+
+El sistema integra **New Relic APM** para observabilidad full-stack. Una vez configuradas las variables de entorno e iniciada la aplicación, ambos servicios aparecerán automáticamente en el dashboard de New Relic bajo **APM & Services**.
+
+### ¿Qué se monitorea?
+
+| Área | Descripción |
+|---|---|
+| **APM — Backend** | Latencia y throughput por endpoint, errores HTTP, trazas de transacciones |
+| **APM — Frontend** | Server-side rendering de Next.js, naming de rutas y transacciones |
+| **Base de datos** | Tiempo de ejecución de queries, queries lentas |
+| **Logs** | Logs centralizados del backend con correlación a trazas |
+| **Alertas** | Notificaciones configurables ante errores o degradación de rendimiento |
+
+### Obtener la License Key
+
+1. Crear cuenta gratuita en [newrelic.com](https://newrelic.com) (100 GB/mes incluidos, sin tarjeta de crédito)
+2. Ir a **API keys** en el dashboard de New Relic
+3. Copiar la **License key (Ingest)** y pegarla en `NEW_RELIC_LICENSE_KEY` del `.env`
+
+> Los agentes de New Relic están preconfigurados en `backend/newrelic.js` y `frontend/newrelic.js`. No se requiere ninguna modificación adicional al código.
 
 ---
 

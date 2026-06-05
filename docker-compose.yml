@@ -31,6 +31,9 @@ services:
       POSTGRESQL_DB: ${POSTGRESQL_DB}
       POSTGRESQL_PORT: ${POSTGRESQL_PORT:-5432}
       PORT: ${PORT:-3001}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
+      NEW_RELIC_APP_NAME: ${NEW_RELIC_APP_NAME}
     ports:
       - "${PORT:-3001}:${PORT:-3001}"
     volumes:
@@ -50,6 +53,8 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
       WATCHPACK_POLLING: ${WATCHPACK_POLLING:-true}
+      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
+      NEW_RELIC_FRONTEND_APP_NAME: ${NEW_RELIC_FRONTEND_APP_NAME:-gestion-inventario-frontend}
     ports:
       - "3000:3000"
     volumes:
