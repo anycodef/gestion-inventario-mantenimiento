@@ -1,6 +1,9 @@
 # Stage 1: Base
 FROM node:24-alpine AS base
 
+# Set CI=true to make pnpm non-interactive and avoid TTY prompts
+ENV CI=true
+
 # Install pnpm globally to match project lockfile
 RUN npm install -g pnpm@11.1.2
 
