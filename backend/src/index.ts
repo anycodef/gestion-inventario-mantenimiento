@@ -1,4 +1,8 @@
+import dotenv from 'dotenv';
+dotenv.config();
+import 'newrelic';
 import express, { Request, Response } from 'express';
+import cors from 'cors';
 import productoRouter from './interfaces/routes/productoRoutes';
 import ordenCompraRouter from './interfaces/routes/ordenCompraRoutes';
 import proveedorRouter from './interfaces/routes/proveedorRoutes';
@@ -10,6 +14,14 @@ import kardexRouter from './interfaces/routes/kardexRoutes';
 import { db } from './infrastructure/database/postgresql/connection';
 const app = express();
 const port = 3001;
+
+// Configurar CORS para permitir peticiones desde el frontend
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // Middleware para parsear JSON
 app.use(bodyParser.json());
 
