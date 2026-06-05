@@ -33,6 +33,7 @@ EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_OPTIONS="--require newrelic"
 
 # Command to run Next.js in development mode (hot reload)
 CMD ["pnpm", "run", "dev"]
@@ -58,6 +59,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/newrelic.js ./newrelic.js
 
 # Install only production dependencies
 RUN pnpm install --prod --frozen-lockfile
