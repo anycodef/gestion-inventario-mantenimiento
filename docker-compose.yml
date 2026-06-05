@@ -52,6 +52,8 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
       WATCHPACK_POLLING: ${WATCHPACK_POLLING:-true}
+      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
+      NEW_RELIC_FRONTEND_APP_NAME: ${NEW_RELIC_FRONTEND_APP_NAME:-gestion-inventario-frontend}
     ports:
       - "3000:3000"
     volumes:
