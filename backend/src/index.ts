@@ -14,6 +14,7 @@ if (process.env.NEW_RELIC_LICENSE_KEY) {
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { securityHeaders } from './interfaces/middleware/securityHeaders';
+import { apiRateLimiter } from './interfaces/middleware/rateLimiter';
 import { errorHandler } from './interfaces/middleware/errorHandler';
 import productoRouter from './interfaces/routes/productoRoutes';
 import ordenCompraRouter from './interfaces/routes/ordenCompraRoutes';
@@ -29,6 +30,9 @@ const port = 3001;
 
 // Cabeceras de seguridad HTTP (KAN-23..29 / OWASP A02 Security Misconfiguration).
 app.use(securityHeaders);
+
+// Límite de tasa de peticiones (KAN-31 / A02).
+app.use(apiRateLimiter);
 
 // Configurar CORS para permitir peticiones desde el frontend
 const allowedOrigins = process.env.FRONTEND_URL

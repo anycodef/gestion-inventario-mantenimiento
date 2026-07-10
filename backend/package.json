@@ -21,6 +21,7 @@
     "cors": "^2.8.6",
     "dotenv": "^16.4.7",
     "express": "^4.21.0",
+    "express-rate-limit": "^8.5.2",
     "helmet": "^8.2.0",
     "mysql2": "^3.11.3",
     "newrelic": "^14.1.0",
