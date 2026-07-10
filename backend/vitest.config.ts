@@ -9,8 +9,15 @@ export default defineConfig({
       reporter: ['text', 'lcov'],
       reportsDirectory: './coverage',
       include: ['src/**/*.ts'],
-      // Excluir tests y bootstrap/infra no unitariamente testeable.
-      exclude: ['src/**/*.test.ts', 'src/index.ts', 'src/infrastructure/**'],
+      // Excluir tests y capa glue/bootstrap/infra no unitariamente testeable
+      // (alineado con sonar.coverage.exclusions).
+      exclude: [
+        'src/**/*.test.ts',
+        'src/index.ts',
+        'src/infrastructure/**',
+        'src/interfaces/controllers/**',
+        'src/interfaces/routes/**',
+      ],
     },
   },
 });

@@ -37,16 +37,16 @@ export class ProductoController {
                 nivelMinimo
             });
             res.status(201).json({ message: 'Producto creado con éxito' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error al crear el producto: ' + (error as Error).message });
+        } catch {
+            res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
     async obtenerlista(req: Request, res: Response): Promise<void> {
         try {
             const productos = await this.obtenerListaProductosUseCase.execute();
             res.json(productos);
-        } catch (error) {
-            res.status(500).json({ message: 'Error al obtener los productos: ' + (error as Error).message });
+        } catch {
+            res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
 
@@ -54,8 +54,8 @@ export class ProductoController {
         try {
             const productos = await this.obtenerTodosProductosUseCase.execute();
             res.json(productos);
-        } catch (error) {
-            res.status(500).json({ message: 'Error al obtener los productos: ' + (error as Error).message });
+        } catch {
+            res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
 
@@ -64,8 +64,8 @@ export class ProductoController {
             const { id } = req.params;
             const producto = await this.obtenerProductoPorIdUseCase.execute(parseInt(id));
             res.json(producto);
-        } catch (error) {
-            res.status(500).json({ message: 'Error al obtener el producto por ID: ' + (error as Error).message });
+        } catch {
+            res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
 
@@ -92,8 +92,8 @@ export class ProductoController {
                 nivelMinimo
             });
             res.status(200).json({ message: 'Producto actualizado con exito' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error al actualizar el producto: ' + (error as Error).message });
+        } catch {
+            res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
 
@@ -109,8 +109,8 @@ export class ProductoController {
         try {
             await this.eliminarProductoUseCase.execute(parseInt(id));
             res.status(200).json({ message: 'Producto eliminado con exito' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error al eliminar el producto: ' + (error as Error).message });
+        } catch {
+            res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
 
@@ -118,8 +118,8 @@ export class ProductoController {
         try {
             const inventario = await this.obtenerInventarioProductosUseCase.execute();
             res.json(inventario);
-        } catch (error) {
-            res.status(500).json({ message: 'Error al obtener el inventario de productos: ' + (error as Error).message });
+        } catch {
+            res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
 
@@ -127,16 +127,16 @@ export class ProductoController {
         try {
             const productosMinimos = await this.obtenerProductosMinimosUseCase.execute();
             res.json(productosMinimos);
-        } catch (error) {
-            res.status(500).json({ message: 'Error al obtener los productos minimos: ' + (error as Error).message });
+        } catch {
+            res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
     async obtenerMaximos(req: Request, res: Response): Promise<void> {
         try {
             const productosMaximos = await this.obtenerProductosMaximosUseCase.execute();
             res.json(productosMaximos);
-        } catch (error) {
-            res.status(500).json({ message: 'Error al obtener los productos minimos: ' + (error as Error).message });
+        } catch {
+            res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
 
