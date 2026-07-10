@@ -87,3 +87,42 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # AGREGADO (KAN-36): escaneo de cadena de suministro y secretos.
+  # OWASP Top 10 2025 A03 Software Supply Chain Failures.
+  security:
+    name: Supply Chain & Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Escaneo de secretos filtrados en el repo/historial.
+      - name: Secret scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Sin 'version': usa el campo packageManager del package.json raíz
+      # (evita el error "Multiple versions of pnpm specified").
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Auditoría de dependencias vulnerables (no bloquea aún: reporta).
+      - name: Audit backend dependencies
+        working-directory: backend
+        run: pnpm audit --audit-level high
+        continue-on-error: true
+
+      - name: Audit frontend dependencies
+        working-directory: frontend
+        run: pnpm audit --audit-level high
+        continue-on-error: true
