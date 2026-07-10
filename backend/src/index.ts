@@ -13,6 +13,7 @@ if (process.env.NEW_RELIC_LICENSE_KEY) {
 }
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import { securityHeaders } from './interfaces/middleware/securityHeaders';
 import productoRouter from './interfaces/routes/productoRoutes';
 import ordenCompraRouter from './interfaces/routes/ordenCompraRoutes';
 import proveedorRouter from './interfaces/routes/proveedorRoutes';
@@ -24,6 +25,9 @@ import kardexRouter from './interfaces/routes/kardexRoutes';
 import { db } from './infrastructure/database/postgresql/connection';
 const app = express();
 const port = 3001;
+
+// Cabeceras de seguridad HTTP (KAN-23..29 / OWASP A02 Security Misconfiguration).
+app.use(securityHeaders);
 
 // Configurar CORS para permitir peticiones desde el frontend
 const allowedOrigins = process.env.FRONTEND_URL
