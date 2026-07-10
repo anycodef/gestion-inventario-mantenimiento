@@ -1,0 +1,49 @@
+# DAST continuo con OWASP ZAP (KAN-37)
+# Levanta la API en ejecución y la escanea dinámicamente. Complementa el SAST
+# (SonarQube + CodeQL) y el SCA (Dependabot + audit) — tríada de AppSec.
+name: DAST (OWASP ZAP)
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  zap-baseline:
+    name: OWASP ZAP Baseline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Credenciales de la BD para docker compose (valores de ejemplo, no secretos).
+      - name: Prepare env
+        run: cp .env.example .env
+
+      - name: Start backend + database
+        run: docker compose up -d --build backend db
+
+      - name: Wait for API
+        run: |
+          for i in $(seq 1 40); do
+            if curl -sf http://localhost:3001/ >/dev/null 2>&1; then
+              echo "API lista"; exit 0
+            fi
+            sleep 6
+          done
+          echo "La API no respondió a tiempo"; docker compose logs backend | tail -80; exit 1
+
+      - name: OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.15.0
+        with:
+          target: 'http://localhost:3001'
+          cmd_options: '-I'
+          fail_action: false
+          allow_issue_writing: false
+
+      - name: Teardown
+        if: always()
+        run: docker compose down -v
