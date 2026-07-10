@@ -8,8 +8,8 @@ export class RecepcionCompraController {
     try {
       const recepciones = await this.obtenerRecepcionesCompra.execute();
       res.status(200).json(recepciones);
-    } catch (error) {
-      res.status(500).json({ error: 'Error interno del servidor' + (error as Error).message });
+    } catch {
+      res.status(500).json({ message: 'Error interno del servidor' });
     }
   }
 }

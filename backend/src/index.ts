@@ -14,6 +14,7 @@ if (process.env.NEW_RELIC_LICENSE_KEY) {
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { securityHeaders } from './interfaces/middleware/securityHeaders';
+import { errorHandler } from './interfaces/middleware/errorHandler';
 import productoRouter from './interfaces/routes/productoRoutes';
 import ordenCompraRouter from './interfaces/routes/ordenCompraRoutes';
 import proveedorRouter from './interfaces/routes/proveedorRoutes';
@@ -62,6 +63,9 @@ app.get('/test-connection', async (req, res) => { try { const result = await db.
 app.use((req, res) => {
   res.status(404).send({ message: 'Ruta no encontrada' });
 });
+
+// Manejador de errores centralizado (KAN-32 / A10): no filtra detalles internos.
+app.use(errorHandler);
 
 app.listen(port, () => {
   // Server started
