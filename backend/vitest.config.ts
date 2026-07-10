@@ -17,6 +17,7 @@ export default defineConfig({
         'src/infrastructure/**',
         'src/interfaces/controllers/**',
         'src/interfaces/routes/**',
+        'src/interfaces/middleware/logger.ts',
       ],
     },
   },
