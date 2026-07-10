@@ -3,3 +3,5 @@
 .pnpm/
 .scannerwork/
 newrelic_agent.log
+
+coverage

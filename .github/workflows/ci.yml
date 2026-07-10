@@ -74,6 +74,13 @@ jobs:
         run: pnpm test -- --coverage --watchAll=false --coverageReporters=lcov
         continue-on-error: true
 
+      # AGREGADO (KAN-39): tests + cobertura del backend con Vitest.
+      # Genera backend/coverage/lcov.info para el Quality Gate de Sonar.
+      # Sin continue-on-error: si los tests del backend fallan, el pipeline falla.
+      - name: Run backend tests with coverage
+        working-directory: backend
+        run: pnpm run test:coverage
+
       # AGREGADO: scan de SonarQube Cloud.
       # Lee sonar-project.properties de la raíz del repo automáticamente.
       - name: SonarQube Scan
