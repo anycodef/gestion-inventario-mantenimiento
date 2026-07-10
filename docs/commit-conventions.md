@@ -33,18 +33,18 @@ Este proyecto usa **Conventional Commits 1.0.0** como base, extendido con la cla
 |----------------|------------------------------------------------------------------------------------------|
 | `tipo`         | Minúsculas. Ver tabla de tipos en §3.                                                    |
 | `scope`        | Minúsculas, entre paréntesis. Opcional pero recomendado. Ver scopes en §4.               |
-| `JIRA-KEY`     | Clave del ticket (`GIM-XXX`). Obligatorio para trabajo relacionado con un ticket.        |
+| `JIRA-KEY`     | Clave del ticket (`KAN-XXX`). Obligatorio para trabajo relacionado con un ticket.        |
 | `descripcion`  | Imperativo presente, sin punto final, máximo 72 caracteres contando todo el subject.     |
 
 **Ejemplos válidos:**
 ```
-feat(inventario): GIM-101 add product stock management endpoint
-fix(auth): GIM-87 resolve JWT token expiration not refreshing
-chore(deps): GIM-55 migrate npm to pnpm workspace
-docs(arch): GIM-34 add OpenAPI specification for inventory module
-refactor(db): GIM-78 extract repository base class
-test(compras): GIM-99 add unit tests for orden compra use case
-ci: GIM-120 add Docker build stage to pipeline
+feat(inventario): KAN-101 add product stock management endpoint
+fix(auth): KAN-87 resolve JWT token expiration not refreshing
+chore(deps): KAN-55 migrate npm to pnpm workspace
+docs(arch): KAN-34 add OpenAPI specification for inventory module
+refactor(db): KAN-78 extract repository base class
+test(compras): KAN-99 add unit tests for orden compra use case
+ci: KAN-120 add Docker build stage to pipeline
 ```
 
 **Sin ticket (tareas técnicas internas sin ticket Jira):**
@@ -77,7 +77,7 @@ style(ui): apply prettier formatting
 Si el commit introduce un cambio que rompe compatibilidad, se indica con `!` después del tipo/scope **y** se documenta en el pie con `BREAKING CHANGE:`:
 
 ```
-feat(api)!: GIM-200 remove deprecated /productos/list endpoint
+feat(api)!: KAN-200 remove deprecated /productos/list endpoint
 
 BREAKING CHANGE: el endpoint /productos/list fue eliminado.
 Usar /productos con query params para filtrado.
@@ -118,7 +118,7 @@ Opcional. Usar cuando el subject no es suficiente para entender el **porqué** d
 - Límite recomendado: 100 caracteres por línea.
 
 ```
-feat(inventario): GIM-101 add product stock management endpoint
+feat(inventario): KAN-101 add product stock management endpoint
 
 Se agregó el endpoint POST /inventario/movimiento para registrar
 entradas y salidas de stock. La validación de stock negativo se
@@ -132,29 +132,29 @@ sin restricción.
 
 El pie se usa para tres propósitos:
 1. Declarar breaking changes (`BREAKING CHANGE:`).
-2. Referenciar tickets relacionados (`Refs: GIM-XXX`).
+2. Referenciar tickets relacionados (`Refs: KAN-XXX`).
 3. Enviar **Smart Commits** a Jira para transicionar tickets o registrar tiempo.
 
 ### Comandos Smart Commits disponibles
 
 | Comando             | Efecto en Jira                        |
 |---------------------|---------------------------------------|
-| `GIM-101 #comment <texto>` | Agrega comentario al ticket    |
-| `GIM-101 #time 2h 30m`     | Registra tiempo trabajado      |
-| `GIM-101 #done`            | Transiciona a "Done"           |
-| `GIM-101 #in-progress`     | Transiciona a "In Progress"    |
-| `GIM-101 #code-review`     | Transiciona a "Code Review"    |
+| `KAN-101 #comment <texto>` | Agrega comentario al ticket    |
+| `KAN-101 #time 2h 30m`     | Registra tiempo trabajado      |
+| `KAN-101 #done`            | Transiciona a "Done"           |
+| `KAN-101 #in-progress`     | Transiciona a "In Progress"    |
+| `KAN-101 #code-review`     | Transiciona a "Code Review"    |
 
 **Ejemplo completo con smart commits:**
 ```
-feat(inventario): GIM-101 add product stock management endpoint
+feat(inventario): KAN-101 add product stock management endpoint
 
 Implementa el endpoint para registrar movimientos de inventario
 con validación de stock negativo en salidas.
 
-GIM-101 #comment Endpoint implementado y testeado localmente
-GIM-101 #time 3h
-GIM-101 #done
+KAN-101 #comment Endpoint implementado y testeado localmente
+KAN-101 #time 3h
+KAN-101 #done
 ```
 
 ---
@@ -189,7 +189,7 @@ Para los merges de PR a `main`, usar el título del PR como mensaje del merge. G
 
 **Formato recomendado para PR title (y por tanto merge commit):**
 ```
-feat(inventario): GIM-101 add product stock management endpoint (#15)
+feat(inventario): KAN-101 add product stock management endpoint (#15)
 ```
 
 ---
@@ -198,16 +198,16 @@ feat(inventario): GIM-101 add product stock management endpoint (#15)
 
 | Situación                                 | Mensaje de commit                                                      |
 |-------------------------------------------|------------------------------------------------------------------------|
-| Nueva pantalla de inventario (con ticket) | `feat(ui): GIM-45 add inventory dashboard with stock alerts`           |
-| Bug en cálculo de stock                   | `fix(inventario): GIM-87 correct negative stock validation logic`      |
-| Actualizar dependencia pnpm               | `chore(deps): GIM-55 update express to 4.19.0`                         |
-| Agregar test unitario                     | `test(compras): GIM-99 add unit test for orden compra creation`        |
-| Refactor repositorio MySQL                | `refactor(db): GIM-78 extract base repository class for MySQL`         |
-| Cambio en pipeline CI                     | `ci: GIM-120 add pnpm cache to GitHub Actions workflow`                |
+| Nueva pantalla de inventario (con ticket) | `feat(ui): KAN-45 add inventory dashboard with stock alerts`           |
+| Bug en cálculo de stock                   | `fix(inventario): KAN-87 correct negative stock validation logic`      |
+| Actualizar dependencia pnpm               | `chore(deps): KAN-55 update express to 4.19.0`                         |
+| Agregar test unitario                     | `test(compras): KAN-99 add unit test for orden compra creation`        |
+| Refactor repositorio MySQL                | `refactor(db): KAN-78 extract base repository class for MySQL`         |
+| Cambio en pipeline CI                     | `ci: KAN-120 add pnpm cache to GitHub Actions workflow`                |
 | Corrección de typo en docs                | `docs: fix typo in README installation section`                        |
-| Breaking change en API                    | `feat(api)!: GIM-200 remove deprecated productos/list endpoint`        |
+| Breaking change en API                    | `feat(api)!: KAN-200 remove deprecated productos/list endpoint`        |
 | Tarea de mantenimiento sin ticket         | `chore: update .gitignore patterns`                                    |
-| Agregar Docker para desarrollo            | `chore(infra): GIM-60 add docker-compose for local development`        |
+| Agregar Docker para desarrollo            | `chore(infra): KAN-60 add docker-compose for local development`        |
 
 ---
 

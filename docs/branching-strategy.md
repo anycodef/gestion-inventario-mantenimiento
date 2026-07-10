@@ -41,16 +41,16 @@ Todas las ramas se crean desde `main` y se fusionan de vuelta a `main`. Se elimi
 ```
 
 - `<tipo>`: categoría del trabajo (ver tabla).
-- `<JIRA-KEY>`: clave del ticket de Jira obligatoria (ej. `GIM-42`).
+- `<JIRA-KEY>`: clave del ticket de Jira obligatoria (ej. `KAN-42`).
 - `descripcion-corta`: 2–4 palabras en kebab-case que resuman el trabajo.
 
 **Ejemplos:**
 ```
-feat/GIM-101-crud-productos
-fix/GIM-87-inventario-stock-negativo
-chore/GIM-55-pnpm-migration
-docs/GIM-34-api-documentation
-refactor/GIM-78-db-repository-layer
+feat/KAN-101-crud-productos
+fix/KAN-87-inventario-stock-negativo
+chore/KAN-55-pnpm-migration
+docs/KAN-34-api-documentation
+refactor/KAN-78-db-repository-layer
 ```
 
 ### 3.2 Tipos de ramas
@@ -73,7 +73,7 @@ refactor/GIM-78-db-repository-layer
 
 ### 4.1 Conexión rama–ticket
 
-- El nombre de la rama **debe contener la clave del ticket de Jira** (`GIM-XXX`).
+- El nombre de la rama **debe contener la clave del ticket de Jira** (`KAN-XXX`).
 - GitHub y Jira detectan automáticamente esta relación y vinculan la rama al ticket.
 - El desarrollador mueve el ticket a **"In Progress"** al crear la rama.
 
@@ -82,9 +82,9 @@ refactor/GIM-78-db-repository-layer
 Jira interpreta comandos en los mensajes de commit cuando contienen la clave del ticket. Usar en el cuerpo del commit (no en el subject):
 
 ```
-GIM-101 #comment Implementado endpoint de creación de producto
-GIM-101 #time 2h
-GIM-101 #done
+KAN-101 #comment Implementado endpoint de creación de producto
+KAN-101 #time 2h
+KAN-101 #done
 ```
 
 | Comando      | Efecto en Jira                            |
@@ -96,7 +96,7 @@ GIM-101 #done
 
 ### 4.3 Pull Request
 
-- El título del PR debe incluir la clave Jira: `feat(inventario): GIM-101 CRUD de productos`.
+- El título del PR debe incluir la clave Jira: `feat(inventario): KAN-101 CRUD de productos`.
 - Jira detecta el PR y lo vincula al ticket, habilitando el tracking de desarrollo.
 - Al mergear el PR, mover el ticket a **"In Review"** o **"Done"** según el flujo del equipo.
 
@@ -129,13 +129,13 @@ git push origin v1.2.0
 
 ```
 1. Crear rama desde main:
-   git checkout -b feat/GIM-101-crud-productos
+   git checkout -b feat/KAN-101-crud-productos
 
 2. Desarrollar y commitear frecuentemente (Conventional Commits).
    Commits pequeños y enfocados.
 
 3. Abrir Pull Request hacia main antes de los 3 días.
-   Título: "feat(inventario): GIM-101 CRUD de productos"
+   Título: "feat(inventario): KAN-101 CRUD de productos"
 
 4. Code review (mínimo 1 aprobación) + CI verde.
 
