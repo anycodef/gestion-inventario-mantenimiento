@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { ProductoController } from '../controllers/ProductoController';
 import { validateBody } from '../middleware/validate';
+import { authorize } from '../middleware/auth';
 import { crearProductoSchema, actualizarProductoSchema } from '../schemas/productoSchema';
 import { CrearProductoUseCase } from '../../application/use-cases/producto/CrearProductoUseCase';
 import { ObtenerTodosProductosUseCase } from '../../application/use-cases/producto/ObtenerTodosProductosUseCase';
@@ -44,12 +45,12 @@ const productoController = new ProductoController(
   obtenerProductosMinimosUseCase
 );
 
-productoRouter.post('/', validateBody(crearProductoSchema), (req, res) => productoController.crear(req, res));
+productoRouter.post('/', authorize('admin'), validateBody(crearProductoSchema), (req, res) => productoController.crear(req, res));
 productoRouter.get('/', (req, res) => productoController.obtenerTodosProductos(req, res));
 productoRouter.get('/inventario', (req, res) => productoController.obtenerInventario(req, res));
 productoRouter.get('/info/:id', (req, res) => productoController.obtenerPorId(req, res));
-productoRouter.put('/:id', validateBody(actualizarProductoSchema), (req, res) => productoController.actualizar(req, res));
-productoRouter.delete('/:id', (req, res) => productoController.eliminar(req, res));
+productoRouter.put('/:id', authorize('admin'), validateBody(actualizarProductoSchema), (req, res) => productoController.actualizar(req, res));
+productoRouter.delete('/:id', authorize('admin'), (req, res) => productoController.eliminar(req, res));
 //YONI
 // Agregar las nuevas rutas
 // productoRouter.put('/stock/:id', (req, res) => productoController.actualizarStock(req, res));
