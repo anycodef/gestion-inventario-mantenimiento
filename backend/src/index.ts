@@ -16,6 +16,8 @@ import cors from 'cors';
 import { securityHeaders } from './interfaces/middleware/securityHeaders';
 import { apiRateLimiter } from './interfaces/middleware/rateLimiter';
 import { errorHandler } from './interfaces/middleware/errorHandler';
+import { logger } from './interfaces/middleware/logger';
+import pinoHttp from 'pino-http';
 import productoRouter from './interfaces/routes/productoRoutes';
 import ordenCompraRouter from './interfaces/routes/ordenCompraRoutes';
 import proveedorRouter from './interfaces/routes/proveedorRoutes';
@@ -33,6 +35,9 @@ app.use(securityHeaders);
 
 // Límite de tasa de peticiones (KAN-31 / A02).
 app.use(apiRateLimiter);
+
+// Logging estructurado de peticiones (KAN-35 / A09).
+app.use(pinoHttp({ logger }));
 
 // Configurar CORS para permitir peticiones desde el frontend
 const allowedOrigins = process.env.FRONTEND_URL
@@ -72,5 +77,5 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 app.listen(port, () => {
-  // Server started
+  logger.info(`Backend escuchando en el puerto ${port}`);
 });
