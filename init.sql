@@ -133,3 +133,17 @@ INSERT INTO detalle_compra (orden_compraid, productoid, cantidad, precio_unitari
 -- Movimientos iniciales en el Kardex
 INSERT INTO kardex (tipo_movimiento, orden_compraid) VALUES
 ('entrada', 1);
+
+-- Usuarios (KAN-34 / OWASP A01-A07): autenticación y autorización por rol
+CREATE TABLE IF NOT EXISTS usuarios (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(100) NOT NULL,
+    rol VARCHAR(20) NOT NULL DEFAULT 'operador'
+);
+
+-- Usuario administrador semilla. Credenciales de desarrollo: admin / admin123
+-- (el hash es bcrypt; cambiar en cualquier entorno real).
+INSERT INTO usuarios (username, password_hash, rol) VALUES
+('admin', '$2b$10$/YyN6xrl2GBVrUxQeKezF.UkDqTzOGhHDzhbl9UWj6NMm.df.BhLu', 'admin')
+ON CONFLICT (username) DO NOTHING;

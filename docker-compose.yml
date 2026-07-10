@@ -36,6 +36,7 @@ services:
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
       NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
       NEW_RELIC_APP_NAME: ${NEW_RELIC_APP_NAME}
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}
     ports:
       - "${PORT:-3001}:${PORT:-3001}"
     volumes:

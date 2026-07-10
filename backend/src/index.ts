@@ -26,6 +26,8 @@ import bodyParser from 'body-parser';
 import categoriaRouter from './interfaces/routes/categoriaRoutes';
 import salidaInventarioRouter from './interfaces/routes/salidaInventarioRoutes';
 import kardexRouter from './interfaces/routes/kardexRoutes';
+import authRouter from './interfaces/routes/authRoutes';
+import { authenticate } from './interfaces/middleware/auth';
 import { db } from './infrastructure/database/postgresql/connection';
 const app = express();
 const port = 3001;
@@ -53,14 +55,17 @@ app.use(cors({
 // Middleware para parsear JSON
 app.use(bodyParser.json());
 
-// Registrar las rutas
-app.use('/api/productos', productoRouter);
-app.use('/api/ordenes', ordenCompraRouter);
-app.use('/api/proveedores', proveedorRouter);
-app.use('/api/recepciones', recepcionRoutes);
-app.use('/api/categorias', categoriaRouter);
-app.use('/api/kardex', kardexRouter);
-app.use('/api/salidas', salidaInventarioRouter);
+// Rutas de autenticación (públicas): login (KAN-34 / A07).
+app.use('/api/auth', authRouter);
+
+// Registrar las rutas de negocio protegidas con autenticación (KAN-34 / A01).
+app.use('/api/productos', authenticate, productoRouter);
+app.use('/api/ordenes', authenticate, ordenCompraRouter);
+app.use('/api/proveedores', authenticate, proveedorRouter);
+app.use('/api/recepciones', authenticate, recepcionRoutes);
+app.use('/api/categorias', authenticate, categoriaRouter);
+app.use('/api/kardex', authenticate, kardexRouter);
+app.use('/api/salidas', authenticate, salidaInventarioRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, TypeScript with Express!');

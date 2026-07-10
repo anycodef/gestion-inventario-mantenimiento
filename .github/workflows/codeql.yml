@@ -26,6 +26,12 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: javascript-typescript
+          # Excluir archivos de test del análisis: sus mini-apps de prueba no son
+          # superficie de ataque real (las rutas de producción sí están rate-limited).
+          config: |
+            paths-ignore:
+              - '**/*.test.ts'
+              - '**/*.test.tsx'
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
