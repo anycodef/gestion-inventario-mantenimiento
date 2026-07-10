@@ -1,6 +1,16 @@
-import 'newrelic';
 import dotenv from 'dotenv';
 dotenv.config();
+
+// New Relic APM (KAN-38): se carga solo si hay licencia configurada.
+// Sin NEW_RELIC_LICENSE_KEY el agente queda dormido y la app arranca normal.
+if (process.env.NEW_RELIC_LICENSE_KEY) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('newrelic');
+  } catch {
+    // APM opcional: continuar sin instrumentación si el agente no está disponible.
+  }
+}
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import productoRouter from './interfaces/routes/productoRoutes';

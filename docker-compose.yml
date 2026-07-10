@@ -59,6 +59,9 @@ services:
       SONAR_TOKEN: ${SONAR_TOKEN}
       NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
       NEW_RELIC_FRONTEND_APP_NAME: ${NEW_RELIC_FRONTEND_APP_NAME:-gestion-inventario-frontend}
+      # KAN-38: carga opcional de New Relic vía loader (ruta absoluta para no romper
+      # los subprocesos de build de pnpm install; no-op si no hay licencia)
+      NODE_OPTIONS: "--require /app/newrelic-loader.js"
     ports:
       - "3000:3000"
     volumes:

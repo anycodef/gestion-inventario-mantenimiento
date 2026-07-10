@@ -33,7 +33,7 @@ EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV NODE_OPTIONS="--require newrelic"
+ENV NODE_OPTIONS="--require /app/newrelic-loader.js"
 
 # Command to run Next.js in development mode (hot reload)
 CMD ["pnpm", "run", "dev"]
