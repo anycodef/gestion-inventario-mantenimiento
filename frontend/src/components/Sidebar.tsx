@@ -1,5 +1,6 @@
 import { MdApi } from "react-icons/md";
 import MenuItem from "./MenuItem";
+import LogoutButton from "./LogoutButton";
 
 
 function Sidebar() {
@@ -16,7 +17,7 @@ function Sidebar() {
           <MenuItem icon={<MdApi size={24} className=""/> } href="kardex" name="kardex"></MenuItem>
           <MenuItem icon={<MdApi size={24} className=""/> } name="orden compra" href="ordenes-compra"></MenuItem>
           <MenuItem icon={<MdApi size={24} className=""/> } name="orden venta" href="ordenes-venta"></MenuItem>
-          
+          <LogoutButton />
         </div>
     </div>
 )
